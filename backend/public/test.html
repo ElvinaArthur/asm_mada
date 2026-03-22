@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Test API Auth - ASM Alumni</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+      button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f5f5f5;
+        border-radius: 5px;
+      }
+      .tabs {
+        display: flex;
+        margin-bottom: 20px;
+      }
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+      }
+      .tab.active {
+        background: #007bff;
+        color: white;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔐 Test API d'Authentification</h1>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('login')">Login</div>
+        <div class="tab" onclick="showTab('register')">Register</div>
+        <div class="tab" onclick="showTab('me')">Mon Profil</div>
+      </div>
+
+      <!-- Login Tab -->
+      <div id="login-tab" class="tab-content active">
+        <h2>Se connecter (POST /api/auth/login)</h2>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" id="login-email" value="admin@test.com" />
+        </div>
+        <div class="form-group">
+          <label>Mot de passe:</label>
+          <input type="password" id="login-password" value="admin123" />
+        </div>
+        <button onclick="testLogin()">Tester Login</button>
+      </div>
+
+      <!-- Register Tab -->
+      <div id="register-tab" class="tab-content">
+        <h2>Créer un compte (POST /api/auth/register)</h2>
+        <div class="form-group">
+          <label>Prénom:</label>
+          <input type="text" id="reg-firstname" value="John" />
+        </div>
+        <div class="form-group">
+          <label>Nom:</label>
+          <input type="text" id="reg-lastname" value="Doe" />
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" id="reg-email" value="john.doe@test.com" />
+        </div>
+        <div class="form-group">
+          <label>Mot de passe:</label>
+          <input type="password" id="reg-password" value="test123" />
+        </div>
+        <button onclick="testRegister()">Tester Register</button>
+      </div>
+
+      <!-- Profile Tab -->
+      <div id="me-tab" class="tab-content">
+        <h2>Mon profil (GET /api/auth/me)</h2>
+        <p>Token JWT requis:</p>
+        <div class="form-group">
+          <label>Token JWT:</label>
+          <input
+            type="text"
+            id="jwt-token"
+            placeholder="Collez votre token ici"
+          />
+        </div>
+        <button onclick="testMe()">Tester Mon Profil</button>
+      </div>
+
+      <div class="result" id="result">
+        <h3>Résultat:</h3>
+        <pre id="result-output">Cliquez sur un bouton pour tester...</pre>
+      </div>
+    </div>
+
+    <script>
+      let currentToken = "";
+
+      function showTab(tabName) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((c) => c.classList.remove("active"));
+
+        event.target.classList.add("active");
+        document.getElementById(`${tabName}-tab`).classList.add("active");
+      }
+
+      async function testLogin() {
+        const data = {
+          email: document.getElementById("login-email").value,
+          password: document.getElementById("login-password").value,
+        };
+
+        showResult("Envoi de la requête POST /api/auth/login...");
+
+        try {
+          const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+
+          if (result.success && result.token) {
+            currentToken = result.token;
+            document.getElementById("jwt-token").value = result.token;
+          }
+
+          showResult(result);
+        } catch (error) {
+          showResult({ error: error.message });
+        }
+      }
+
+      async function testRegister() {
+        const data = {
+          firstName: document.getElementById("reg-firstname").value,
+          lastName: document.getElementById("reg-lastname").value,
+          email: document.getElementById("reg-email").value,
+          password: document.getElementById("reg-password").value,
+          graduationYear: 2020,
+          specialization: "Informatique",
+        };
+
+        showResult("Envoi de la requête POST /api/auth/register...");
+
+        try {
+          const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+          showResult(result);
+        } catch (error) {
+          showResult({ error: error.message });
+        }
+      }
+
+      async function testMe() {
+        const token =
+          document.getElementById("jwt-token").value || currentToken;
+
+        if (!token) {
+          showResult({ error: "Token JWT requis" });
+          return;
+        }
+
+        showResult("Envoi de la requête GET /api/auth/me...");
+
+        try {
+          const response = await fetch("/api/auth/me", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const result = await response.json();
+          showResult(result);
+        } catch (error) {
+          showResult({ error: error.message });
+        }
+      }
+
+      function showResult(data) {
+        document.getElementById("result-output").textContent = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      }
+    </script>
+  </body>
+</html>

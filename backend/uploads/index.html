@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Uploads Directory</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .card {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      .dir-list {
+        list-style: none;
+        padding: 0;
+      }
+      .dir-list li {
+        padding: 10px;
+        margin: 5px 0;
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 4px;
+      }
+      .dir-list li:hover {
+        background: #f0f8ff;
+      }
+      .dir-list a {
+        text-decoration: none;
+        color: #0066cc;
+        font-weight: bold;
+      }
+      .dir-list a:hover {
+        text-decoration: underline;
+      }
+      .api-info {
+        background: #e8f4fd;
+        border-left: 4px solid #2196f3;
+        padding: 15px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📁 Dossier Uploads - ASM Alumni</h1>
+
+      <div class="card">
+        <h2>📂 Sous-dossiers disponibles</h2>
+        <ul class="dir-list">
+          <li>📄 <a href="pdfs/">pdfs/</a> - Livres et documents PDF</li>
+          <li>
+            🖼️ <a href="thumbnails/">thumbnails/</a> - Images de couverture
+          </li>
+        </ul>
+      </div>
+
+      <div class="api-info">
+        <h3>🔧 API Uploads</h3>
+        <p>Pour gérer les fichiers via l'API :</p>
+        <ul>
+          <li>
+            <strong>GET</strong> <code>/api/uploads/pdfs</code> - Lister les
+            PDFs
+          </li>
+          <li>
+            <strong>GET</strong> <code>/api/uploads/thumbnails</code> - Lister
+            les images
+          </li>
+          <li>
+            <strong>POST</strong> <code>/api/uploads/upload</code> - Uploader un
+            fichier
+          </li>
+          <li>
+            <strong>GET</strong> <code>/api/uploads/stats</code> - Statistiques
+          </li>
+          <li>
+            <strong>DELETE</strong> <code>/api/uploads/delete</code> - Supprimer
+            un fichier
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📊 Accès direct</h3>
+        <p>Serveur : <code>http://localhost:3000</code></p>
+        <p>Base de données : <code>database/asm-alumni.db</code></p>
+        <p>Environnement : <strong>development</strong></p>
+      </div>
+    </div>
+  </body>
+</html>
