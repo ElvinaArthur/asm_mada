@@ -14,8 +14,8 @@ const MembersPage = lazy(() => import("../pages/Members/MembersPage"));
 
 // Pages Auth
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
-const ForgotPasswordPage = lazy(() => import("../pages/auth/ForgotPassword"));
-const ResetPasswordPage = lazy(() => import("../pages/auth/ResetPassword"));
+const ForgotPasswordPage = lazy(() => import("../pages/Auth/ForgotPassword"));
+const ResetPasswordPage = lazy(() => import("../pages/Auth/ResetPassword"));
 const VerificationPending = lazy(
   () => import("../pages/Auth/VerificationPending"),
 );
