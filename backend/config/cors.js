@@ -5,7 +5,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Liste des origines autorisées
     const allowedOrigins = [
-      "http://https://asm-mada.onrender.com",
+      "https://asm-mada.onrender.com",
       "http://localhost:5173",
       "http://127.0.0.1:3000",
       "http://127.0.0.1:5173",

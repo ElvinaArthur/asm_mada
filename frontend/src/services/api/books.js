@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://https://asm-mada.onrender.com/api";
+  import.meta.env.VITE_API_URL || "https://asm-mada.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,

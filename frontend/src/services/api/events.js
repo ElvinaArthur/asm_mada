@@ -1,7 +1,7 @@
 // frontend/src/services/api/events.js
 import axios from "axios";
 
-const API_URL = "http://https://asm-mada.onrender.com/api";
+const API_URL = "https://asm-mada.onrender.com/api";
 
 // Configuration axios avec intercepteur pour le token
 const api = axios.create({

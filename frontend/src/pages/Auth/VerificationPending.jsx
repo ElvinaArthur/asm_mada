@@ -35,7 +35,7 @@ const VerificationPending = () => {
       }
 
       const response = await fetch(
-        "http://https://asm-mada.onrender.com/api/auth/me",
+        "https://asm-mada.onrender.com/api/auth/me",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -259,7 +259,7 @@ const EventDetailPage = () => {
                 className="w-full h-full"
                 objectFit="contain"
                 objectPosition="center"
-                fallbackImage="http://https://asm-mada.onrender.com/default-event.jpg"
+                fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
               />
             </div>
           ) : (
@@ -614,15 +614,15 @@ const EventDetailPage = () => {
                       relatedEvent.imageUrl !== "/default-event.jpg"
                     ) {
                       return relatedEvent.imageUrl.startsWith("/")
-                        ? `http://https://asm-mada.onrender.com${relatedEvent.imageUrl}`
+                        ? `https://asm-mada.onrender.com${relatedEvent.imageUrl}`
                         : relatedEvent.imageUrl;
                     }
 
                     if (relatedEvent.image) {
-                      return `http://https://asm-mada.onrender.com/uploads/events/${relatedEvent.image}`;
+                      return `https://asm-mada.onrender.com/uploads/events/${relatedEvent.image}`;
                     }
 
-                    return "http://https://asm-mada.onrender.com/default-event.jpg";
+                    return "https://asm-mada.onrender.com/default-event.jpg";
                   };
 
                   const imageUrl = getRelatedImageUrl();
@@ -640,7 +640,7 @@ const EventDetailPage = () => {
                           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                           onError={(e) => {
                             e.target.src =
-                              "http://https://asm-mada.onrender.com/default-event.jpg";
+                              "https://asm-mada.onrender.com/default-event.jpg";
                           }}
                         />
                         {/* Overlay léger */}
@@ -687,7 +687,7 @@ const EventDetailPage = () => {
               event={event}
               className="max-w-full max-h-[90vh] object-contain"
               objectFit="contain"
-              fallbackImage="http://https://asm-mada.onrender.com/default-event.jpg"
+              fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
             />
 
             <button

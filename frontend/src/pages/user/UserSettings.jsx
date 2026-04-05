@@ -51,7 +51,7 @@ const UserSettings = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        "http://https://asm-mada.onrender.com/api/user/change-password",
+        "https://asm-mada.onrender.com/api/user/change-password",
         {
           method: "PUT",
           headers: {

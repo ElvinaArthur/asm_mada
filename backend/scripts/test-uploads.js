@@ -42,7 +42,7 @@ try {
   fs.writeFileSync(testFile, "Test upload file");
   console.log("✅ Fichier test créé: test.txt");
   console.log(
-    `   Accessible via: http://https://asm-mada.onrender.com/uploads/test.txt\n`,
+    `   Accessible via: https://asm-mada.onrender.com/uploads/test.txt\n`,
   );
 } catch (err) {
   console.error("❌ Erreur création fichier test:", err.message);
@@ -50,7 +50,7 @@ try {
 
 console.log("🎯 Instructions:");
 console.log("1. Redémarrez votre serveur");
-console.log("2. Testez: http://https://asm-mada.onrender.com/uploads/test.txt");
+console.log("2. Testez: https://asm-mada.onrender.com/uploads/test.txt");
 console.log(
   "3. Si ça fonctionne, vos autres fichiers devraient aussi être accessibles\n",
 );

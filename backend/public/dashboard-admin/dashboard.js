@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE = "http://https://asm-mada.onrender.com/api";
+const API_BASE = "https://asm-mada.onrender.com/api";
 
 // Éléments DOM
 const elements = {

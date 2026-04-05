@@ -16,7 +16,7 @@ import {
 import { PDFViewer } from "../../components/ui/pdf";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://https://asm-mada.onrender.com/api";
+  import.meta.env.VITE_API_URL || "https://asm-mada.onrender.com/api";
 
 const BookDetailView = ({ book, onClose }) => {
   const [showPDF, setShowPDF] = useState(false);

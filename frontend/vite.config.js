@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://https://asm-mada.onrender.com",
+        target: "https://asm-mada.onrender.com",
         changeOrigin: true,
       },
     },

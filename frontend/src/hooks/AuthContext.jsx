@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://https://asm-mada.onrender.com/api";
+const API_URL = "https://asm-mada.onrender.com/api";
 
 const AuthContext = createContext({});
 

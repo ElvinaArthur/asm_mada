@@ -104,7 +104,7 @@ const AdminBooksAdd = () => {
 
       // Envoyer au backend
       const response = await fetch(
-        "http://https://asm-mada.onrender.com/api/admin/books",
+        "https://asm-mada.onrender.com/api/admin/books",
         {
           method: "POST",
           headers: {
