@@ -1,9 +1,9 @@
 // Book Manager - Gestion complète des livres
 const BookManager = {
   // Configuration
-  API_BASE: "http://localhost:3000/api",
-  PDF_UPLOAD_URL: "http://localhost:3000/uploads/pdfs/",
-  THUMBNAIL_URL: "http://localhost:3000/uploads/thumbnails/",
+  API_BASE: "http://https://asm-mada.onrender.com/api",
+  PDF_UPLOAD_URL: "http://https://asm-mada.onrender.com/uploads/pdfs/",
+  THUMBNAIL_URL: "http://https://asm-mada.onrender.com/uploads/thumbnails/",
 
   // État
   currentBooks: [],

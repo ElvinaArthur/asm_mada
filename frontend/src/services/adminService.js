@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/admin";
+const API_URL = "http://https://asm-mada.onrender.com/api/admin";
 
 // Configuration axios avec interceptor
 const adminApi = axios.create({

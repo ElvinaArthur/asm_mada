@@ -21,7 +21,7 @@ import {
   BookOpen,
 } from "lucide-react";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://https://asm-mada.onrender.com";
 
 // ─── Privacy Toggle ────────────────────────────────────────────────
 const PrivacyToggle = ({ checked, onChange, label }) => (

@@ -29,7 +29,7 @@ const MemberCard = ({ member, onViewDetails }) => {
           >
             {member.photoUrl ? (
               <img
-                src={`http://localhost:3000${member.photoUrl}`}
+                src={`http://https://asm-mada.onrender.com${member.photoUrl}`}
                 alt={member.fullName}
                 className="w-full h-full object-cover"
                 onError={(e) => {

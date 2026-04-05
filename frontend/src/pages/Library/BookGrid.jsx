@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { BookOpen, Eye, Calendar, Download } from "lucide-react";
 import BookDetailView from "./BookDetailView";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://https://asm-mada.onrender.com/api";
 
 const BookGrid = ({ books = [], viewMode = "grid" }) => {
   const [selectedBook, setSelectedBook] = useState(null);

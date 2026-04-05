@@ -34,11 +34,14 @@ const VerificationPending = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:3000/api/auth/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        "http://https://asm-mada.onrender.com/api/auth/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();

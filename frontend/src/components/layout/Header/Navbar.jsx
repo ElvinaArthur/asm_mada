@@ -19,7 +19,7 @@ import { HoverEffect } from "../../ui/animations";
 import PrimaryButton from "../../ui/buttons/PrimaryButton";
 import { useAuth } from "../../../hooks/AuthContext";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://https://asm-mada.onrender.com";
 
 // ─── Petit composant avatar réutilisable ──────────────────────────
 const UserAvatar = ({ user, size = "md" }) => {

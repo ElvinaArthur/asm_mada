@@ -46,7 +46,7 @@ const useVerifications = () => {
       });
 
       const response = await fetch(
-        `http://localhost:3000/api/admin/verifications?${params}`,
+        `http://https://asm-mada.onrender.com/api/admin/verifications?${params}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -83,7 +83,7 @@ const useVerifications = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/proofs/admin/proof/${userId}`,
+        `http://https://asm-mada.onrender.com/api/proofs/admin/proof/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -112,7 +112,7 @@ const useVerifications = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/admin/verifications/verify/${userId}`,
+        `http://https://asm-mada.onrender.com/api/admin/verifications/verify/${userId}`,
         {
           method: "POST",
           headers: {
@@ -139,7 +139,7 @@ const useVerifications = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/admin/verifications/reject/${userId}`,
+        `http://https://asm-mada.onrender.com/api/admin/verifications/reject/${userId}`,
         {
           method: "POST",
           headers: {
@@ -167,7 +167,7 @@ const useVerifications = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/proofs/download/${filename}`,
+        `http://https://asm-mada.onrender.com/api/proofs/download/${filename}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },

@@ -259,7 +259,7 @@ const EventDetailPage = () => {
                 className="w-full h-full"
                 objectFit="contain"
                 objectPosition="center"
-                fallbackImage="http://localhost:3000/default-event.jpg"
+                fallbackImage="http://https://asm-mada.onrender.com/default-event.jpg"
               />
             </div>
           ) : (
@@ -614,15 +614,15 @@ const EventDetailPage = () => {
                       relatedEvent.imageUrl !== "/default-event.jpg"
                     ) {
                       return relatedEvent.imageUrl.startsWith("/")
-                        ? `http://localhost:3000${relatedEvent.imageUrl}`
+                        ? `http://https://asm-mada.onrender.com${relatedEvent.imageUrl}`
                         : relatedEvent.imageUrl;
                     }
 
                     if (relatedEvent.image) {
-                      return `http://localhost:3000/uploads/events/${relatedEvent.image}`;
+                      return `http://https://asm-mada.onrender.com/uploads/events/${relatedEvent.image}`;
                     }
 
-                    return "http://localhost:3000/default-event.jpg";
+                    return "http://https://asm-mada.onrender.com/default-event.jpg";
                   };
 
                   const imageUrl = getRelatedImageUrl();
@@ -640,7 +640,7 @@ const EventDetailPage = () => {
                           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                           onError={(e) => {
                             e.target.src =
-                              "http://localhost:3000/default-event.jpg";
+                              "http://https://asm-mada.onrender.com/default-event.jpg";
                           }}
                         />
                         {/* Overlay léger */}
@@ -687,7 +687,7 @@ const EventDetailPage = () => {
               event={event}
               className="max-w-full max-h-[90vh] object-contain"
               objectFit="contain"
-              fallbackImage="http://localhost:3000/default-event.jpg"
+              fallbackImage="http://https://asm-mada.onrender.com/default-event.jpg"
             />
 
             <button

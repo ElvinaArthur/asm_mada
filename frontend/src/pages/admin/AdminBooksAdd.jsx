@@ -103,13 +103,16 @@ const AdminBooksAdd = () => {
       }
 
       // Envoyer au backend
-      const response = await fetch("http://localhost:3000/api/admin/books", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const response = await fetch(
+        "http://https://asm-mada.onrender.com/api/admin/books",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: uploadData,
         },
-        body: uploadData,
-      });
+      );
 
       const result = await response.json();
 

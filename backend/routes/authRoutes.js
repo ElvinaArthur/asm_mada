@@ -24,7 +24,7 @@ router.get("/login", (req, res) => {
       },
     },
     exampleCurl:
-      'curl -X POST "http://localhost:3000/api/auth/login" -H "Content-Type: application/json" -d \'{"email":"test@test.com","password":"test123"}\'',
+      'curl -X POST "http://https://asm-mada.onrender.com/api/auth/login" -H "Content-Type: application/json" -d \'{"email":"test@test.com","password":"test123"}\'',
     availableAuthRoutes: [
       "POST /api/auth/register - Créer un compte",
       "POST /api/auth/login - Se connecter",

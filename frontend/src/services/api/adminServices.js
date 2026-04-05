@@ -1,7 +1,7 @@
 // frontend/src/services/adminService.js
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/admin";
+const API_URL = "http://https://asm-mada.onrender.com/api/admin";
 
 // Intercepteur pour ajouter le token automatiquement
 const adminApi = axios.create({

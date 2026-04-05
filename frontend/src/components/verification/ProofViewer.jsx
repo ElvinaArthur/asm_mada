@@ -111,7 +111,7 @@ const ProofViewer = ({ filename, mimetype, onDownload }) => {
         const token = localStorage.getItem("token");
 
         // ESSAI 1: Endpoint admin preview
-        const previewUrl = `http://localhost:3000/api/proofs/admin/proof/preview/${filename}`;
+        const previewUrl = `http://https://asm-mada.onrender.com/api/proofs/admin/proof/preview/${filename}`;
 
         try {
           const response = await fetch(previewUrl, {
@@ -130,7 +130,7 @@ const ProofViewer = ({ filename, mimetype, onDownload }) => {
         }
 
         // ESSAI 2: Accès direct via uploads
-        const directUrl = `http://localhost:3000/uploads/proofs/${filename}`;
+        const directUrl = `http://https://asm-mada.onrender.com/uploads/proofs/${filename}`;
         const directResponse = await fetch(directUrl, {
           headers: { Authorization: `Bearer ${token}` },
         });

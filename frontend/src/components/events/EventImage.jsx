@@ -8,7 +8,7 @@ const EventImage = ({
   showOverlay = false,
   objectFit = "cover",
   objectPosition = "center",
-  fallbackImage = "http://localhost:3000/default-event.jpg",
+  fallbackImage = "http://https://asm-mada.onrender.com/default-event.jpg",
 }) => {
   const [imgError, setImgError] = useState(false);
 
@@ -29,14 +29,14 @@ const EventImage = ({
     if (event.imageUrl && event.imageUrl !== "/default-event.jpg") {
       const url = event.imageUrl.startsWith("http")
         ? event.imageUrl
-        : `http://localhost:3000${event.imageUrl}`;
+        : `http://https://asm-mada.onrender.com${event.imageUrl}`;
       console.log("📤 Utilisation imageUrl:", url);
       return url;
     }
 
     // Sinon utiliser le nom de fichier
     if (event.image) {
-      const url = `http://localhost:3000/uploads/events/${event.image}`;
+      const url = `http://https://asm-mada.onrender.com/uploads/events/${event.image}`;
       console.log("📤 Utilisation image:", url);
       return url;
     }

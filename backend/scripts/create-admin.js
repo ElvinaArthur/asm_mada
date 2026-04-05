@@ -52,7 +52,9 @@ async function createAdmin() {
     console.log("   Email: admin@asm-alumni.com");
     console.log("   Mot de passe: admin123");
     console.log("   ID: " + result.lastInsertRowid);
-    console.log("\n🔗 Connectez-vous sur: http://localhost:3000");
+    console.log(
+      "\n🔗 Connectez-vous sur: http://https://asm-mada.onrender.com",
+    );
   } catch (error) {
     console.error("❌ Erreur lors de la création:", error);
   }

@@ -3,8 +3,8 @@ import { BookOpen, Download, Eye, Calendar, Clock } from "lucide-react";
 
 const BookCard = ({ book }) => {
   // Construire les URLs complètes
-  const thumbnailUrl = `http://localhost:3000${book.thumbnailUrl}`;
-  const pdfUrl = `http://localhost:3000${book.pdfUrl}`;
+  const thumbnailUrl = `http://https://asm-mada.onrender.com${book.thumbnailUrl}`;
+  const pdfUrl = `http://https://asm-mada.onrender.com${book.pdfUrl}`;
 
   // Couleurs par catégorie
   const getCategoryColor = (category) => {

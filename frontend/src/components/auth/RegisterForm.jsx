@@ -141,7 +141,7 @@ const RegisterForm = () => {
 
       // Envoyer la requête
       const response = await fetch(
-        "http://localhost:3000/api/register/register",
+        "http://https://asm-mada.onrender.com/api/register/register",
         {
           method: "POST",
           body: formDataToSend,

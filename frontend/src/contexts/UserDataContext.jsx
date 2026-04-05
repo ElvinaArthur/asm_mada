@@ -73,7 +73,7 @@ export const UserDataProvider = ({ children }) => {
       // Charger les stats
       try {
         const statsRes = await fetch(
-          "http://localhost:3000/api/user/books/stats",
+          "http://https://asm-mada.onrender.com/api/user/books/stats",
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -97,7 +97,7 @@ export const UserDataProvider = ({ children }) => {
       // Charger les événements stats
       try {
         const eventsRes = await fetch(
-          "http://localhost:3000/api/user/events/stats",
+          "http://https://asm-mada.onrender.com/api/user/events/stats",
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -119,7 +119,7 @@ export const UserDataProvider = ({ children }) => {
       // Charger l'activité
       try {
         const activityRes = await fetch(
-          "http://localhost:3000/api/user/activity?limit=5",
+          "http://https://asm-mada.onrender.com/api/user/activity?limit=5",
           {
             headers: { Authorization: `Bearer ${token}` },
           },

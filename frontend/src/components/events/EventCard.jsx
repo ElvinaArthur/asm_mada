@@ -17,17 +17,17 @@ const EventCard = ({ event }) => {
     // Priorité à imageUrl
     if (event.imageUrl && event.imageUrl !== "/default-event.jpg") {
       return event.imageUrl.startsWith("/")
-        ? `http://localhost:3000${event.imageUrl}`
+        ? `http://https://asm-mada.onrender.com${event.imageUrl}`
         : event.imageUrl;
     }
 
     // Sinon utiliser l'image si elle existe
     if (event.image) {
-      return `http://localhost:3000/uploads/events/${event.image}`;
+      return `http://https://asm-mada.onrender.com/uploads/events/${event.image}`;
     }
 
     // Fallback à l'image par défaut
-    return "http://localhost:3000/default-event.jpg";
+    return "http://https://asm-mada.onrender.com/default-event.jpg";
   };
 
   // Formatage date
@@ -99,7 +99,7 @@ const EventCard = ({ event }) => {
             objectFit="cover"
             objectPosition="center"
             showOverlay={true}
-            fallbackImage="http://localhost:3000/default-event.jpg"
+            fallbackImage="http://https://asm-mada.onrender.com/default-event.jpg"
           />
 
           {/* Overlay gradient léger */}

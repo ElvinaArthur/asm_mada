@@ -104,7 +104,7 @@ const MemberDetailsModal = ({ isOpen, onClose, memberId, isAdmin = false }) => {
                       >
                         {member.photoUrl ? (
                           <img
-                            src={`http://localhost:3000${member.photoUrl}`}
+                            src={`http://https://asm-mada.onrender.com${member.photoUrl}`}
                             alt={member.fullName}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -279,7 +279,7 @@ const MemberDetailsModal = ({ isOpen, onClose, memberId, isAdmin = false }) => {
           >
             <div className="relative max-w-full max-h-full">
               <img
-                src={`http://localhost:3000${member.photoUrl}`}
+                src={`http://https://asm-mada.onrender.com${member.photoUrl}`}
                 alt={member.fullName}
                 className="max-w-full max-h-[80vh] sm:max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
               />
