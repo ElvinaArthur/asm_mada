@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   X,
   BookOpen,
@@ -14,6 +14,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { PDFViewer } from "../../components/ui/pdf";
+import { bookAPI } from "../../services/api/books";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "https://asm-mada.onrender.com/api";
@@ -21,10 +22,34 @@ const API_URL =
 const BookDetailView = ({ book, onClose }) => {
   const [showPDF, setShowPDF] = useState(false);
   const [imageError, setImageError] = useState(false);
+  // On garde une copie locale des vues pour les afficher à jour immédiatement
+  const [localViews, setLocalViews] = useState(book.views || 0);
+  const hasIncremented = useRef(false); // évite le double appel en StrictMode
 
   const thumbnailUrl = `${API_URL}/books/${book.id}/thumbnail`;
-
   const pdfUrl = `${API_URL}/books/${book.id}/view`;
+
+  // ─── Incrémenter les vues au montage (une seule fois) ────────────────────
+  useEffect(() => {
+    if (hasIncremented.current) return;
+    hasIncremented.current = true;
+
+    const trackView = async () => {
+      try {
+        await bookAPI.incrementViews(book.id);
+        // Mise à jour locale immédiate — pas besoin de recharger toute la liste
+        setLocalViews((prev) => prev + 1);
+        // Invalider le cache pour que la prochaine ouverture de la bibliothèque
+        // affiche le vrai compteur venu du serveur
+        bookAPI.clearCache();
+      } catch {
+        // Silencieux : on n'affiche pas d'erreur pour ça
+      }
+    };
+
+    trackView();
+  }, [book.id]);
+  // ─────────────────────────────────────────────────────────────────────────
 
   if (showPDF) {
     return (
@@ -62,7 +87,7 @@ const BookDetailView = ({ book, onClose }) => {
       {/* Contenu */}
       <div className="max-w-6xl mx-auto p-6">
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Colonne gauche - Couverture et action */}
+          {/* Colonne gauche */}
           <div className="md:col-span-1">
             <div className="sticky top-24 space-y-6">
               {/* Thumbnail */}
@@ -90,7 +115,7 @@ const BookDetailView = ({ book, onClose }) => {
                 Lire le document
               </button>
 
-              {/* Bouton alternatif - Ouverture directe */}
+              {/* Ouverture directe */}
               <a
                 href={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
                 target="_blank"
@@ -101,7 +126,7 @@ const BookDetailView = ({ book, onClose }) => {
                 Ouvrir dans un nouvel onglet
               </a>
 
-              {/* Avertissement protection */}
+              {/* Protection */}
               <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <Lock className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -120,7 +145,7 @@ const BookDetailView = ({ book, onClose }) => {
                 </div>
               </div>
 
-              {/* Statistiques */}
+              {/* Statistiques — affiche localViews qui est incrémenté immédiatement */}
               <div className="bg-gray-50 rounded-xl p-4">
                 <h4 className="font-semibold text-gray-900 mb-3">
                   Statistiques
@@ -131,7 +156,7 @@ const BookDetailView = ({ book, onClose }) => {
                       <Eye className="w-4 h-4" />
                       Vues
                     </span>
-                    <span className="font-semibold">{book.views || 0}</span>
+                    <span className="font-semibold">{localViews}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600 flex items-center gap-2">
@@ -145,16 +170,14 @@ const BookDetailView = ({ book, onClose }) => {
             </div>
           </div>
 
-          {/* Colonne droite - Détails */}
+          {/* Colonne droite */}
           <div className="md:col-span-2">
-            {/* Badge catégorie */}
             <div className="mb-4">
               <span className="inline-block bg-green-100 text-green-800 text-sm font-semibold px-4 py-2 rounded-full">
                 {book.category}
               </span>
             </div>
 
-            {/* Titre et auteur */}
             <h1 className="text-4xl font-bold text-gray-900 mb-3 leading-tight">
               {book.title}
             </h1>
@@ -170,7 +193,8 @@ const BookDetailView = ({ book, onClose }) => {
               </div>
               <div className="flex items-center gap-2">
                 <Eye className="w-5 h-5" />
-                <span>{book.views || 0} vues</span>
+                {/* localViews ici aussi pour cohérence */}
+                <span>{localViews} vues</span>
               </div>
             </div>
 

@@ -1,5 +1,5 @@
 // components/events/EventCard.jsx
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Calendar,
@@ -12,26 +12,36 @@ import {
 } from "lucide-react";
 import EventImage from "./EventImage";
 
+// ─── Utilitaire : calcule le vrai statut selon la date du jour ───────────────
+// On NE fait PAS confiance à event.status venant du backend car il peut être
+// obsolète. On recalcule à partir de event.date à chaque rendu.
+const computeStatus = (event) => {
+  if (!event?.date) return event?.status || "upcoming";
+
+  const eventDate = new Date(event.date);
+  const now = new Date();
+
+  // Si l'événement a une heure de fin, on l'utilise pour être précis
+  // Sinon on considère la journée entière (fin à 23:59)
+  let eventEnd = new Date(eventDate);
+  if (event.end_time) {
+    const [h, m] = event.end_time.split(":").map(Number);
+    eventEnd.setHours(h, m, 0, 0);
+  } else {
+    eventEnd.setHours(23, 59, 59, 999);
+  }
+
+  return eventEnd < now ? "past" : "upcoming";
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
 const EventCard = ({ event }) => {
-  const getImageUrl = () => {
-    // Priorité à imageUrl
-    if (event.imageUrl && event.imageUrl !== "/default-event.jpg") {
-      return event.imageUrl.startsWith("/")
-        ? `https://asm-mada.onrender.com${event.imageUrl}`
-        : event.imageUrl;
-    }
-
-    // Sinon utiliser l'image si elle existe
-    if (event.image) {
-      return `https://asm-mada.onrender.com/uploads/events/${event.image}`;
-    }
-
-    // Fallback à l'image par défaut
-    return "https://asm-mada.onrender.com/default-event.jpg";
-  };
+  // Statut recalculé côté client — ignore event.status du backend
+  const computedStatus = useMemo(() => computeStatus(event), [event]);
 
   // Formatage date
   const formatDate = (dateStr) => {
+    if (!dateStr) return "";
     const date = new Date(dateStr);
     return date.toLocaleDateString("fr-FR", {
       day: "numeric",
@@ -40,7 +50,7 @@ const EventCard = ({ event }) => {
     });
   };
 
-  // Badge statut
+  // Badge statut — utilise computedStatus, pas event.status
   const getStatusBadge = (status) => {
     const badges = {
       upcoming: {
@@ -84,14 +94,11 @@ const EventCard = ({ event }) => {
       </span>
     );
   };
-  const imageUrl = getImageUrl();
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group">
-      // components/events/EventCard.jsx - Section image modifiée
       {/* Image */}
       <div className="relative h-48 bg-gradient-to-br from-emerald-100 to-blue-100 overflow-hidden">
-        {/* Container pour assurer le bon ratio */}
         <div className="absolute inset-0">
           <EventImage
             event={event}
@@ -101,12 +108,10 @@ const EventCard = ({ event }) => {
             showOverlay={true}
             fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
           />
-
-          {/* Overlay gradient léger */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
         </div>
 
-        {/* Vedette */}
+        {/* Badge Vedette */}
         {event.featured && (
           <div className="absolute top-3 right-3 bg-amber-400 text-amber-900 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg z-10">
             <Star className="w-3 h-3 fill-current" />
@@ -114,11 +119,12 @@ const EventCard = ({ event }) => {
           </div>
         )}
 
-        {/* Statut */}
+        {/* Badge statut — calculé dynamiquement */}
         <div className="absolute top-3 left-3 z-10">
-          {getStatusBadge(event.status)}
+          {getStatusBadge(computedStatus)}
         </div>
       </div>
+
       {/* Contenu */}
       <div className="p-6">
         {/* Type */}
@@ -164,7 +170,6 @@ const EventCard = ({ event }) => {
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <span className="text-sm text-gray-500">{event.organizer}</span>
-
           <Link
             to={`/events/${event.id}`}
             className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium text-sm group"
