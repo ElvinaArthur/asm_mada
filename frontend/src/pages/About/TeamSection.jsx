@@ -328,32 +328,6 @@ const TeamSection = () => {
             </div>
           </div>
         </SlideUp>
-
-        {/* CTA rejoindre les commissions */}
-        <FadeIn delay={0.5}>
-          <div className="bg-gradient-to-r from-asm-green-600 to-asm-green-700 rounded-2xl p-8 text-white text-center">
-            <Users className="w-16 h-16 mx-auto mb-6" />
-            <h3 className="text-2xl font-bold mb-4">
-              Rejoignez nos Commissions
-            </h3>
-            <p className="text-lg mb-6 max-w-2xl mx-auto">
-              Vous êtes diplômé en sociologie et souhaitez contribuer activement
-              ? Rejoignez l'une de nos commissions techniques selon votre
-              expertise.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <PrimaryButton className="bg-white text-asm-green-700 hover:bg-gray-100 px-8">
-                Voir les postes à pourvoir
-              </PrimaryButton>
-              <PrimaryButton
-                variant="outline"
-                className="px-8 py-3 border-2 border-white"
-              >
-                Soumettre ma candidature
-              </PrimaryButton>
-            </div>
-          </div>
-        </FadeIn>
       </div>
     </div>
   );
