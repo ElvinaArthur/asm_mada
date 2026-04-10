@@ -59,7 +59,7 @@ const EventHero = () => {
 
         <FadeIn delay={0.5}>
           <TypewriterEffect
-            text="Colloques, formations, conférences et ateliers"
+            text="Colloques, conférences et ateliers"
             speed={30}
             className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto"
             cursor={false}

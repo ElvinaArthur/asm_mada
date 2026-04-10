@@ -49,10 +49,10 @@ const AboutPage = () => {
                 </span>
                 <span className="block">
                   <span className="bg-gradient-to-r from-asm-green-400 to-asm-yellow-400 bg-clip-text text-transparent">
-                    50 ans de la
+                    Plus de 50 ans de Sociologie
                   </span>{" "}
                   <br className="sm:hidden" />
-                  Sociologie Malagasy.
+                  à Madagascar.
                 </span>
               </h1>
             </SlideUp>
@@ -196,29 +196,45 @@ const AboutPage = () => {
             {/* Additional Info */}
             <FadeIn delay={0.5}>
               <div className="mt-10 md:mt-12 pt-6 md:pt-8 border-t border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 text-center">
                   <div>
-                    <div className="text-2xl md:text-3xl font-bold text-asm-green-600 mb-2">
-                      Transparence
+                    <div className="text-lg md:text-xl font-bold text-asm-green-600 mb-2">
+                      Solidarité
                     </div>
-                    <p className="text-sm text-gray-600">
-                      Rapports annuels publics
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Entraide entre membres
                     </p>
                   </div>
                   <div>
-                    <div className="text-2xl md:text-3xl font-bold text-asm-green-600 mb-2">
-                      Impact
+                    <div className="text-lg md:text-xl font-bold text-asm-green-600 mb-2">
+                      Intégrité
                     </div>
-                    <p className="text-sm text-gray-600">
-                      Projets concrets sur le terrain
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Transparence et éthique
                     </p>
                   </div>
                   <div>
-                    <div className="text-2xl md:text-3xl font-bold text-asm-green-600 mb-2">
-                      Communauté
+                    <div className="text-lg md:text-xl font-bold text-asm-green-600 mb-2">
+                      Partage
                     </div>
-                    <p className="text-sm text-gray-600">
-                      Réseau national de sociologues
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Connaissances
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-lg md:text-xl font-bold text-asm-green-600 mb-2">
+                      Respect
+                    </div>
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Diversité des opinions
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-lg md:text-xl font-bold text-asm-green-600 mb-2">
+                      Engagement
+                    </div>
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Progrès social
                     </p>
                   </div>
                 </div>

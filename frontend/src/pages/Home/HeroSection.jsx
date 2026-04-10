@@ -49,12 +49,11 @@ const HeroSection = () => {
 
         <SlideUp delay={0.3}>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            <span className="block">Promouvoir</span>
+            <span className="block">Un réseau de sociologues pour</span>
             <span className="block">
               <span className="bg-gradient-to-r from-asm-green-400 to-asm-yellow-400 bg-clip-text text-transparent">
-                l'excellence
-              </span>{" "}
-              en sociologie
+                analyser, transmettre et agir
+              </span>
             </span>
           </h1>
         </SlideUp>
