@@ -9,6 +9,7 @@ import {
   Building,
   FileText,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { FadeIn, SlideUp, HoverEffect } from "../../components/ui/animations";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
@@ -235,12 +236,16 @@ const MissionVision = () => {
 
         {/* Boutons CTA */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
-          <PrimaryButton className="px-8 py-4">
-            Rejoindre l'Association
-          </PrimaryButton>
-          <SecondaryButton className="px-8 py-4">
-            Voir nos activités
-          </SecondaryButton>
+          <Link to="/auth?mode=register">
+            <PrimaryButton className="px-8 py-4">
+              Rejoindre l'Association
+            </PrimaryButton>
+          </Link>
+          <Link to="/events">
+            <SecondaryButton className="px-8 py-4">
+              Voir nos activités
+            </SecondaryButton>
+          </Link>
         </div>
       </div>
     </div>

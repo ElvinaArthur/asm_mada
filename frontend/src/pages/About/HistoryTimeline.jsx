@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Users,
   Target,
@@ -201,9 +202,11 @@ const HistoryTimeline = () => {
 
         {/* Bouton CTA */}
         <div className="text-center mt-12">
-          <PrimaryButton className="px-8 py-4 text-lg">
-            Rejoindre l'Association
-          </PrimaryButton>
+          <Link to="/auth?mode=register">
+            <PrimaryButton className="px-8 py-4 text-lg">
+              Rejoindre l'Association
+            </PrimaryButton>
+          </Link>
         </div>
       </div>
     </div>
