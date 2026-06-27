@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/verifications/components/ProofModal.jsx
 import React from "react";
 import { motion } from "framer-motion";

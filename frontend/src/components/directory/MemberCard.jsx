@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/MemberCard.jsx
 import React from "react";
 import { motion } from "framer-motion";
@@ -29,7 +30,7 @@ const MemberCard = ({ member, onViewDetails }) => {
           >
             {member.photoUrl ? (
               <img
-                src={`https://asm-mada.onrender.com${member.photoUrl}`}
+                src={`\${API_BASE}\${member.photoUrl}`}
                 alt={member.fullName}
                 className="w-full h-full object-cover"
                 onError={(e) => {

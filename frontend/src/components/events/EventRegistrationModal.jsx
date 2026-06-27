@@ -1,3 +1,4 @@
+﻿'use client';
 // components/events/EventRegistrationModal.jsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";

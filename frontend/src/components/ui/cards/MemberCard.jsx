@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { User, Mail, Briefcase, MapPin, Award, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";

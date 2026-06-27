@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/DirectoryViews.jsx
 import React from "react";
 

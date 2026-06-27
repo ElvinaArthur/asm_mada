@@ -1,7 +1,8 @@
+﻿'use client';
 // frontend/src/pages/admin/AdminBooksEdit.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRouter, useParams } from 'next/navigation';
 import {
   ArrowLeft,
   Upload,
@@ -21,8 +22,9 @@ import {
 import { adminService } from "../../services/adminService";
 
 const AdminBooksEdit = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const params = useParams();
+  const id = params?.id;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [book, setBook] = useState(null);
@@ -89,7 +91,7 @@ const AdminBooksEdit = () => {
     } catch (error) {
       console.error("Erreur chargement livre:", error);
       alert("Erreur: " + error.message);
-      navigate("/admin/books");
+      router.push("/admin/books");
     } finally {
       setLoading(false);
     }
@@ -161,7 +163,7 @@ const AdminBooksEdit = () => {
 
       // Rediriger après succès
       setTimeout(() => {
-        navigate("/admin/books");
+        router.push("/admin/books");
       }, 2000);
     } catch (error) {
       console.error("Erreur mise à jour livre:", error);
@@ -179,7 +181,7 @@ const AdminBooksEdit = () => {
     try {
       await adminService.deleteBook(id);
       alert("Livre supprimé avec succès !");
-      navigate("/admin/books");
+      router.push("/admin/books");
     } catch (error) {
       alert("Erreur: " + error.message);
     }
@@ -295,7 +297,7 @@ const AdminBooksEdit = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate("/admin/books")}
+            onClick={() => router.push("/admin/books")}
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -560,7 +562,7 @@ const AdminBooksEdit = () => {
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={() => navigate("/admin/books")}
+                  onClick={() => router.push("/admin/books")}
                   className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   Annuler

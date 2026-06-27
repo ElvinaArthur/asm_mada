@@ -1,9 +1,10 @@
+﻿'use client';
 // src/pages/user/UserSettings.jsx
 // Page paramètres utilisateur — évite le 404
 // Pour l'instant redirige vers le profil avec les sections sensibles
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useAuth } from "../../hooks/AuthContext";
 import {
   Settings,
@@ -51,7 +52,7 @@ const UserSettings = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        "https://asm-mada.onrender.com/api/user/change-password",
+        "/api/user/change-password",
         {
           method: "PUT",
           headers: {
@@ -142,7 +143,7 @@ const UserSettings = () => {
             </p>
           </div>
           <Link
-            to="/profile"
+            href="/profile"
             className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium"
           >
             <User className="w-4 h-4" /> Modifier le profil
@@ -194,7 +195,7 @@ const UserSettings = () => {
                       </p>
                     </div>
                     <Link
-                      to="/profile"
+                      href="/profile"
                       className="text-sm text-green-600 hover:underline"
                     >
                       Modifier
@@ -206,7 +207,7 @@ const UserSettings = () => {
                       <p className="text-gray-900">{user?.email}</p>
                     </div>
                     <Link
-                      to="/profile"
+                      href="/profile"
                       className="text-sm text-green-600 hover:underline"
                     >
                       Modifier
@@ -383,7 +384,7 @@ const UserSettings = () => {
                   Ces paramètres se gèrent directement depuis votre profil.
                 </p>
                 <Link
-                  to="/profile"
+                  href="/profile"
                   className="inline-flex items-center gap-2 px-5 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm"
                 >
                   <Shield className="w-4 h-4" />

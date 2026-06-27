@@ -1,10 +1,11 @@
+﻿'use client';
 import React from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, Users } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 
 const EmptyState = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <motion.div
@@ -23,7 +24,7 @@ const EmptyState = () => {
         consultez la liste complète des membres.
       </p>
       <button
-        onClick={() => navigate("/admin/users")}
+        onClick={() => router.push("/admin/users")}
         className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center gap-2 transition-colors"
       >
         <Users className="w-5 h-5" />

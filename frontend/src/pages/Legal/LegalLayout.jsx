@@ -1,8 +1,10 @@
+﻿'use client';
 // src/pages/Legal/LegalLayout.jsx
 // Layout commun pour toutes les pages légales
 
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import { ChevronRight, FileText } from "lucide-react";
 
 const legalLinks = [
@@ -14,14 +16,14 @@ const legalLinks = [
 ];
 
 const LegalLayout = ({ title, lastUpdated, children }) => {
-  const location = useLocation();
+  const pathname = usePathname();
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link to="/" className="hover:text-green-600 transition">
+          <Link href="/" className="hover:text-green-600 transition">
             Accueil
           </Link>
           <ChevronRight className="w-4 h-4" />
@@ -39,9 +41,9 @@ const LegalLayout = ({ title, lastUpdated, children }) => {
                 {legalLinks.map((l) => (
                   <Link
                     key={l.path}
-                    to={l.path}
+                    href={l.path}
                     className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition ${
-                      location.pathname === l.path
+                      pathname === l.path
                         ? "bg-green-50 text-green-700 font-medium"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}

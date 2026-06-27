@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   User,
@@ -64,7 +65,7 @@ const MobileMenu = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden" // Changé de md:hidden à lg:hidden
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           />
 
           {/* Menu Panel - visible sur mobile ET tablette */}
@@ -73,7 +74,7 @@ const MobileMenu = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30 }}
-            className="fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl lg:hidden" // Changé de md:hidden à lg:hidden
+            className="fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl lg:hidden"
           >
             <div className="h-full flex flex-col">
               {/* Header */}
@@ -145,7 +146,7 @@ const MobileMenu = ({
                         return (
                           <Link
                             key={item.name}
-                            to={item.path}
+                            href={item.path}
                             onClick={onClose}
                             className={`flex items-center px-3 py-3 rounded-lg transition-all duration-200 ${
                               currentPath === item.path
@@ -184,7 +185,7 @@ const MobileMenu = ({
                           {item.submenu.map((subItem) => (
                             <Link
                               key={subItem.name}
-                              to={subItem.path}
+                              href={subItem.path}
                               onClick={onClose}
                               className={`flex items-center px-3 py-2.5 rounded-lg text-sm transition ${
                                 currentPath === subItem.path
@@ -210,7 +211,7 @@ const MobileMenu = ({
                         {userMenuItems.map((item) => (
                           <Link
                             key={item.name}
-                            to={item.path}
+                            href={item.path}
                             onClick={onClose}
                             className="flex items-center justify-between px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-asm-green-600 transition"
                           >
@@ -250,7 +251,7 @@ const MobileMenu = ({
                 {!user ? (
                   <div className="p-4 space-y-3">
                     <Link
-                      to="/auth?mode=login"
+                      href="/auth?mode=login"
                       onClick={onClose}
                       className="block"
                     >
@@ -262,7 +263,7 @@ const MobileMenu = ({
                     <p className="text-center text-gray-600 text-sm">
                       Pas encore membre ?{" "}
                       <Link
-                        to="/auth?mode=register"
+                        href="/auth?mode=register"
                         onClick={onClose}
                         className="text-asm-green-600 font-medium hover:underline"
                       >

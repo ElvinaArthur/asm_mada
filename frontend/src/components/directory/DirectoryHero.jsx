@@ -1,6 +1,7 @@
+﻿'use client';
 // components/directory/DirectoryHero.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Users, UserCheck, TrendingUp, Globe } from "lucide-react";
 import { FadeIn, SlideUp } from "../ui/animations/index";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
@@ -65,7 +66,7 @@ const DirectoryHero = ({ stats }) => {
           )}
 
           {!user && (
-            <Link to="/auth?mode=register">
+            <Link href="/auth?mode=register">
               <PrimaryButton className="bg-white text-asm-green-700 hover:bg-gray-100">
                 <span className="flex items-center">
                   Rejoindre le répertoire

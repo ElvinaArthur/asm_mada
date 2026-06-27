@@ -1,23 +1,24 @@
+﻿'use client';
 // components/DashboardRedirect.jsx
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { useAuth } from "../hooks/AuthContext";
 
 const DashboardRedirect = () => {
   const { user, isAdmin, loading } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
       } else if (isAdmin) {
-        navigate("/admin");
+        router.push("/admin");
       } else {
-        navigate("/dashboard");
+        router.push("/dashboard");
       }
     }
-  }, [user, isAdmin, loading, navigate]);
+  }, [user, isAdmin, loading, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

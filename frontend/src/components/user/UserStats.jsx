@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { BookOpen, FileText, Calendar, Clock } from "lucide-react";
 import { SlideUp } from "../ui/animations/index";

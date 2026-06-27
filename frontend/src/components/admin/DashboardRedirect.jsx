@@ -1,18 +1,19 @@
+﻿'use client';
 // components/DashboardRedirect.jsx ou .tsx
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 
 const DashboardRedirect = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     // Redirection vers le dashboard après un court délai
     const timer = setTimeout(() => {
-      navigate("/dashboard");
+      router.push("/dashboard");
     }, 1000); // 1 seconde de délai
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [router]);
 
   return (
     <div style={styles.container}>
@@ -41,16 +42,5 @@ const styles = {
   },
 };
 
-// Ajouter l'animation CSS si vous n'utilisez pas de bibliothèque CSS
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(
-  `
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`,
-  styleSheet.cssRules.length,
-);
 
 export default DashboardRedirect;

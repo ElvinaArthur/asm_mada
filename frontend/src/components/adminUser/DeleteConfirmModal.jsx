@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/components/DeleteConfirmModal.jsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";

@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { Calendar, Clock, MapPin, Users, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";

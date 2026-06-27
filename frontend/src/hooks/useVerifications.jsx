@@ -1,8 +1,9 @@
+﻿'use client';
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 
 const useVerifications = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +36,7 @@ const useVerifications = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return;
       }
 
@@ -46,7 +47,7 @@ const useVerifications = () => {
       });
 
       const response = await fetch(
-        `https://asm-mada.onrender.com/api/admin/verifications?${params}`,
+        `/api/admin/verifications?${params}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -55,7 +56,7 @@ const useVerifications = () => {
       if (response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return;
       }
 
@@ -71,19 +72,19 @@ const useVerifications = () => {
     } finally {
       setLoading(false);
     }
-  }, [pagination.page, pagination.limit, searchTerm, navigate]);
+  }, [pagination.page, pagination.limit, searchTerm, router]);
 
   // Charger les détails du justificatif
   const loadProofDetails = async (userId) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return;
       }
 
       const response = await fetch(
-        `https://asm-mada.onrender.com/api/proofs/admin/proof/${userId}`,
+        `/api/proofs/admin/proof/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -107,12 +108,12 @@ const useVerifications = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return false;
       }
 
       const response = await fetch(
-        `https://asm-mada.onrender.com/api/admin/verifications/verify/${userId}`,
+        `/api/admin/verifications/verify/${userId}`,
         {
           method: "POST",
           headers: {
@@ -134,12 +135,12 @@ const useVerifications = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return false;
       }
 
       const response = await fetch(
-        `https://asm-mada.onrender.com/api/admin/verifications/reject/${userId}`,
+        `/api/admin/verifications/reject/${userId}`,
         {
           method: "POST",
           headers: {
@@ -162,12 +163,12 @@ const useVerifications = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return;
       }
 
       const response = await fetch(
-        `https://asm-mada.onrender.com/api/proofs/download/${filename}`,
+        `/api/proofs/download/${filename}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },

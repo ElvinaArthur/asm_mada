@@ -1,5 +1,6 @@
+﻿'use client';
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Mail, ArrowLeft } from "lucide-react";
 import { FadeIn, SlideUp } from "../../components/ui/animations";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
@@ -82,7 +83,7 @@ const ForgotPasswordPage = () => {
 
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <Link
-                  to="/auth?mode=login"
+                  href="/auth?mode=login"
                   className="flex items-center text-asm-green-600 hover:text-asm-green-700"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />

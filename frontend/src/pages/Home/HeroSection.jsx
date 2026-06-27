@@ -1,7 +1,9 @@
+﻿'use client';
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Users, Globe, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import Image from "next/image";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 import { FadeIn, SlideUp } from "../../components/ui/animations/index";
@@ -23,6 +25,17 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-asm-green-900">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-bg.jpg"
+          alt="Madagascar sociologists gathering"
+          fill
+          className="object-cover opacity-20"
+          priority
+        />
+      </div>
+
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -66,7 +79,7 @@ const HeroSection = () => {
         </FadeIn>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <Link to="/library">
+          <Link href="/library">
             <PrimaryButton className="group">
               <span className="flex items-center">
                 Explorer la bibliothèque
@@ -74,7 +87,7 @@ const HeroSection = () => {
               </span>
             </PrimaryButton>
           </Link>
-          <Link to="/auth?mode=register">
+          <Link href="/auth?mode=register">
             <SecondaryButton>
               <span className="flex items-center">
                 Devenir membre

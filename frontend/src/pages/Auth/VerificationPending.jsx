@@ -1,12 +1,13 @@
+﻿'use client';
 // src/pages/auth/VerificationPending.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { Clock, Mail, RefreshCw, LogOut } from "lucide-react";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 
 const VerificationPending = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [checkingStatus, setCheckingStatus] = useState(false);
@@ -30,12 +31,12 @@ const VerificationPending = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
         return;
       }
 
       const response = await fetch(
-        "https://asm-mada.onrender.com/api/auth/me",
+        "/api/auth/me",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +50,7 @@ const VerificationPending = () => {
         if (data.success && data.user.isVerified) {
           // L'utilisateur est vérifié, rediriger vers le dashboard
           localStorage.setItem("user", JSON.stringify(data.user));
-          navigate("/dashboard");
+          router.push("/dashboard");
         } else if (data.success && !data.user.isVerified) {
           // Toujours en attente
           alert("Votre compte est toujours en attente de vérification.");
@@ -66,7 +67,7 @@ const VerificationPending = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/auth?mode=login");
+    router.push("/auth?mode=login");
   };
 
   if (loading) {

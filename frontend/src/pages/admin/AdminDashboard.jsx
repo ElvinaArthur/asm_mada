@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -25,14 +26,13 @@ import {
   Award,
   BookMarked,
 } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { useAuth } from "../../hooks/AuthContext";
 import { adminService } from "../../services/adminService";
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
 
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -221,7 +221,7 @@ const AdminDashboard = () => {
               </div>
 
               <button
-                onClick={() => navigate("/admin/profile")} // CORRIGÉ
+                onClick={() => router.push("/admin/profile")} // CORRIGÉ
                 className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
               >
                 <User className="w-5 h-5" />
@@ -248,39 +248,39 @@ const AdminDashboard = () => {
               icon={BarChart3}
               label="Dashboard"
               active={activeView === "dashboard"}
-              onClick={() => navigate("/admin")}
+              onClick={() => router.push("/admin")}
             />
             <NavItem
               icon={Users}
               label="Utilisateurs"
               count={stats?.totals?.pendingUsers || 0}
               active={activeView === "users"}
-              onClick={() => navigate("/admin/users")} // CORRIGÉ
+              onClick={() => router.push("/admin/users")} // CORRIGÉ
             />
             <NavItem
               icon={BookOpen}
               label="Bibliothèque"
               count={stats?.totals?.books || 0}
               active={activeView === "books"}
-              onClick={() => navigate("/admin/books")} // CORRIGÉ
+              onClick={() => router.push("/admin/books")} // CORRIGÉ
             />
             <NavItem
               icon={CheckCircle}
               label="Vérifications"
               active={activeView === "verifications"}
-              onClick={() => navigate("/admin/verifications")} // CORRIGÉ
+              onClick={() => router.push("/admin/verifications")} // CORRIGÉ
             />
             <NavItem
               icon={Calendar}
               label="Événements"
               active={activeView === "events"}
-              onClick={() => navigate("/admin/events")} // CORRIGÉ
+              onClick={() => router.push("/admin/events")} // CORRIGÉ
             />
             <NavItem
               icon={Settings}
               label="Paramètres"
               active={activeView === "settings"}
-              onClick={() => navigate("/admin/settings")} // CORRIGÉ
+              onClick={() => router.push("/admin/settings")} // CORRIGÉ
             />
           </nav>
 
@@ -335,7 +335,7 @@ const AdminDashboard = () => {
               ].map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => navigate(item.path)}
+                  onClick={() => router.push(item.path)}
                   className={`px-4 py-2 rounded-lg whitespace-nowrap ${
                     activeView === item.id
                       ? "bg-blue-600 text-white"
@@ -367,7 +367,7 @@ const AdminDashboard = () => {
                     </p>
                   </div>
                   <button
-                    onClick={() => navigate("/admin/books/add")}
+                    onClick={() => router.push("/admin/books/add")}
                     className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 flex items-center gap-2"
                   >
                     <Upload className="w-5 h-5" />
@@ -384,7 +384,7 @@ const AdminDashboard = () => {
                   icon={Users}
                   color="bg-blue-500"
                   change={12}
-                  onClick={() => navigate("/admin/users")} // CORRIGÉ
+                  onClick={() => router.push("/admin/users")} // CORRIGÉ
                 />
                 <StatCard
                   title="Livres en ligne"
@@ -392,7 +392,7 @@ const AdminDashboard = () => {
                   icon={BookOpen}
                   color="bg-green-500"
                   change={8}
-                  onClick={() => navigate("/admin/books")} // CORRIGÉ
+                  onClick={() => router.push("/admin/books")} // CORRIGÉ
                 />
                 <StatCard
                   title="En attente"
@@ -400,7 +400,7 @@ const AdminDashboard = () => {
                   icon={Clock}
                   color="bg-yellow-500"
                   change={-5}
-                  onClick={() => navigate("/admin/verifications")} // CORRIGÉ
+                  onClick={() => router.push("/admin/verifications")} // CORRIGÉ
                 />
                 <StatCard
                   title="Total vues"
@@ -408,7 +408,7 @@ const AdminDashboard = () => {
                   icon={Eye}
                   color="bg-purple-500"
                   change={24}
-                  onClick={() => navigate("/admin/books")} // CORRIGÉ
+                  onClick={() => router.push("/admin/books")} // CORRIGÉ
                 />
               </div>
 
@@ -419,21 +419,21 @@ const AdminDashboard = () => {
                   description="Approuver les nouvelles inscriptions"
                   icon={CheckCircle}
                   color="hover:border-green-200 hover:bg-green-50"
-                  onClick={() => navigate("/admin/verifications")} // CORRIGÉ
+                  onClick={() => router.push("/admin/verifications")} // CORRIGÉ
                 />
                 <QuickAction
                   title="Ajouter un livre"
                   description="Publier un nouveau document"
                   icon={Upload}
                   color="hover:border-blue-200 hover:bg-blue-50"
-                  onClick={() => navigate("/admin/books/add")} // CORRIGÉ
+                  onClick={() => router.push("/admin/books/add")} // CORRIGÉ
                 />
                 <QuickAction
                   title="Voir la bibliothèque"
                   description="Consulter tous les livres"
                   icon={FileText}
                   color="hover:border-purple-200 hover:bg-purple-50"
-                  onClick={() => navigate("/admin/books")} // CORRIGÉ
+                  onClick={() => router.push("/admin/books")} // CORRIGÉ
                 />
               </div>
 
@@ -446,7 +446,7 @@ const AdminDashboard = () => {
                       Activités récentes
                     </h3>
                     <button
-                      onClick={() => navigate("/admin/verifications")} // CORRIGÉ
+                      onClick={() => router.push("/admin/verifications")} // CORRIGÉ
                       className="text-blue-600 hover:text-blue-800 text-sm"
                     >
                       Voir tout →
@@ -457,7 +457,7 @@ const AdminDashboard = () => {
                       <div
                         key={activity.id}
                         className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                        onClick={() => navigate(activity.link)}
+                        onClick={() => router.push(activity.link)}
                       >
                         <div className="p-2 bg-gray-100 rounded-lg">
                           {activity.type === "user" && (
@@ -500,7 +500,7 @@ const AdminDashboard = () => {
                         key={index}
                         className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
                         onClick={() =>
-                          navigate(`/admin/books?category=${cat.category}`)
+                          router.push(`/admin/books?category=${cat.category}`)
                         }
                       >
                         <div className="flex items-center gap-3">
@@ -526,7 +526,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div
                     className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => navigate("/admin/settings")} // CORRIGÉ
+                    onClick={() => router.push("/admin/settings")} // CORRIGÉ
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -538,7 +538,7 @@ const AdminDashboard = () => {
                   </div>
                   <div
                     className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => navigate("/admin/settings")} // CORRIGÉ
+                    onClick={() => router.push("/admin/settings")} // CORRIGÉ
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -550,7 +550,7 @@ const AdminDashboard = () => {
                   </div>
                   <div
                     className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => navigate("/admin/settings")} // CORRIGÉ
+                    onClick={() => router.push("/admin/settings")} // CORRIGÉ
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -611,7 +611,7 @@ const AdminDashboard = () => {
                 lien correspondant dans le menu.
               </p>
               <button
-                onClick={() => navigate("/admin")}
+                onClick={() => router.push("/admin")}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Retour au Dashboard

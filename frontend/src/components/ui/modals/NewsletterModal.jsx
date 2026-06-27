@@ -1,3 +1,4 @@
+﻿'use client';
 // src/components/modals/NewsletterModal.jsx
 // ✅ CORRECTIONS :
 //   1. Timer protégé contre les re-renders (ref au lieu de closure)

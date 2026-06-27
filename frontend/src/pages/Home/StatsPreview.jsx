@@ -1,5 +1,7 @@
+﻿'use client';
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Users,
   BookOpen,
@@ -9,7 +11,7 @@ import {
   Target,
   ArrowRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 import { FadeIn, SlideUp, HoverEffect } from "../../components/ui/animations";
@@ -61,7 +63,7 @@ const StatsPreview = () => {
               Découvrez l'impact de notre association en un coup d'œil
             </p>
           </SlideUp>
-          <Link to="/about">
+          <Link href="/about">
             <HoverEffect>
               <SecondaryButton className="mb-12">
                 <span className="flex items-center">
@@ -71,6 +73,25 @@ const StatsPreview = () => {
               </SecondaryButton>
             </HoverEffect>
           </Link>
+        </div>
+
+        {/* Photo Gallery */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-12">
+          {[
+            { src: '/images/gallery-conference.jpg', alt: 'Conférence sociologique' },
+            { src: '/images/gallery-team.jpg', alt: 'Équipe ASM' },
+            { src: '/images/gallery-event.jpg', alt: 'Événement annuel' },
+            { src: '/images/gallery-research.jpg', alt: 'Recherche sur le terrain' },
+          ].map((photo, i) => (
+            <div key={i} className="relative aspect-square rounded-2xl overflow-hidden bg-gray-200">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          ))}
         </div>
 
         {/* CTA Section */}
@@ -83,14 +104,14 @@ const StatsPreview = () => {
               Rejoignez notre communauté grandissante de sociologues passionnés
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth?mode=register">
+              <Link href="/auth?mode=register">
                 <HoverEffect>
                   <button className="bg-white text-asm-green-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition">
                     Devenir membre
                   </button>
                 </HoverEffect>
               </Link>
-              <Link to="/about#impact">
+              <Link href="/about#impact">
                 <HoverEffect>
                   <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-semibold py-3 px-8 rounded-lg transition">
                     Voir notre impact

@@ -1,12 +1,14 @@
+﻿'use client';
 // pages/admin/AdminEventsEdit.jsx - CORRECTIONS
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRouter, useParams } from 'next/navigation';
 import { adminEventService } from "../../services/api/events";
 import ConfirmDeleteModal from "../../components/events/ConfirmDeleteModal";
 
 const AdminEventsEdit = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const router = useRouter();
+  const params = useParams();
+  const id = params?.id;
 
   // États principaux
   const [loading, setLoading] = useState(true);
@@ -185,7 +187,7 @@ const AdminEventsEdit = () => {
       await adminEventService.updateEvent(id, formDataToSend);
 
       console.log("✅ Événement mis à jour avec succès");
-      navigate("/admin/events");
+      router.push("/admin/events");
     } catch (err) {
       console.error("❌ Erreur:", err);
       setError(
@@ -203,7 +205,7 @@ const AdminEventsEdit = () => {
     try {
       await adminEventService.deleteEvent(id);
       setShowDeleteModal(false);
-      navigate("/admin/events");
+      router.push("/admin/events");
     } catch (err) {
       console.error("❌ Erreur suppression:", err);
       setError("Erreur lors de la suppression");
@@ -229,7 +231,7 @@ const AdminEventsEdit = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate("/admin/events")}
+            onClick={() => router.push("/admin/events")}
             className="mb-4 px-4 py-2 text-gray-600 hover:text-gray-900 flex items-center gap-2"
           >
             <svg
@@ -580,7 +582,7 @@ const AdminEventsEdit = () => {
             <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
               <button
                 type="button"
-                onClick={() => navigate("/admin/events")}
+                onClick={() => router.push("/admin/events")}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
               >
                 Annuler

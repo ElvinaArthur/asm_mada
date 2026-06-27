@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/verifications/components/ImageViewer.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";

@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import {
   Users,
   Target,
@@ -202,7 +203,7 @@ const HistoryTimeline = () => {
 
         {/* Bouton CTA */}
         <div className="text-center mt-12">
-          <Link to="/auth?mode=register">
+          <Link href="/auth?mode=register">
             <PrimaryButton className="px-8 py-4 text-lg">
               Rejoindre l'Association
             </PrimaryButton>

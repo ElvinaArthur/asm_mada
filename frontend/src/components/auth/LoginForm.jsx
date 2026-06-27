@@ -1,6 +1,7 @@
+﻿'use client';
 // src/components/auth/LoginForm.jsx - VERSION CORRIGÉE
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Mail, Lock, AlertCircle } from "lucide-react";
 import { SlideUp } from "../ui/animations/index";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
@@ -68,7 +69,7 @@ const LoginForm = () => {
               Mot de passe
             </label>
             <Link
-              to="/auth/forgot-password"
+              href="/auth/forgot-password"
               className="text-sm text-asm-green-600 hover:text-asm-green-700 hover:underline"
             >
               Mot de passe oublié ?
@@ -134,7 +135,7 @@ const LoginForm = () => {
           <p>
             Pas encore de compte ?{" "}
             <Link
-              to="/auth?mode=register"
+              href="/auth?mode=register"
               className="text-asm-green-600 hover:text-asm-green-700 font-medium underline"
             >
               Inscrivez-vous

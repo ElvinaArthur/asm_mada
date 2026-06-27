@@ -1,12 +1,13 @@
+﻿'use client';
 import React, { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle } from "lucide-react";
 import { SlideUp } from "../../components/ui/animations";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const ResetPassword = () => {
         setSuccess(true);
         console.log("Password reset for token:", token);
         setTimeout(() => {
-          navigate("/auth");
+          router.push("/auth");
         }, 3000);
       } else {
         setError("Token invalide ou expiré");

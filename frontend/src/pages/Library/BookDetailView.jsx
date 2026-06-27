@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState, useEffect, useRef } from "react";
 import {
   X,
@@ -17,7 +18,7 @@ import { PDFViewer } from "../../components/ui/pdf";
 import { bookAPI } from "../../services/api/books";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "https://asm-mada.onrender.com/api";
+  "/api";
 
 const BookDetailView = ({ book, onClose }) => {
   const [showPDF, setShowPDF] = useState(false);

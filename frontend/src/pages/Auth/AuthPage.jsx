@@ -1,5 +1,6 @@
+﻿'use client';
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
 import { StaggerChildren, SlideUp } from "../../components/ui/animations";
 import AuthHeader from "../../components/auth/AuthHeader";
@@ -10,12 +11,10 @@ import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 import { useAuth } from "../../hooks/AuthContext"; // AJOUTEZ CET IMPORT
 
 const AuthPage = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, isAdmin, loading } = useAuth();
-  const [isLogin, setIsLogin] = useState(
-    searchParams.get("mode") !== "register",
-  );
+  const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
     const mode = searchParams.get("mode");
@@ -144,13 +143,13 @@ const AuthPage = () => {
                 {/* Toggle */}
                 <div className="flex space-x-4 mb-8">
                   <PrimaryButton
-                    onClick={() => navigate("/auth?mode=login")}
+                    onClick={() => router.push("/auth?mode=login")}
                     className={`flex-1 ${!isLogin ? "opacity-50" : ""}`}
                   >
                     Connexion
                   </PrimaryButton>
                   <SecondaryButton
-                    onClick={() => navigate("/auth?mode=register")}
+                    onClick={() => router.push("/auth?mode=register")}
                     className={`flex-1 ${isLogin ? "opacity-50" : ""}`}
                   >
                     Inscription

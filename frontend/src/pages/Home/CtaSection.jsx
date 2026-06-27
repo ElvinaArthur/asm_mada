@@ -1,6 +1,7 @@
+﻿'use client';
 import React from "react";
 import { motion } from "framer-motion";
-// import { Link } from "react-router-dom";
+import Image from "next/image";
 import {
   Users,
   BookOpen,
@@ -10,7 +11,7 @@ import {
   Award,
   Star,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 import {
@@ -78,7 +79,7 @@ const CtaSection = () => {
             </p>
           </SlideUp>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link to="/join">
+            <Link href="/join">
               <PrimaryButton className="bg-gradient-to-r from-asm-green-500 to-asm-green-600 hover:from-asm-green-600 hover:to-asm-green-700">
                 <span className="flex items-center text-lg">
                   Devenir membre maintenant
@@ -86,7 +87,7 @@ const CtaSection = () => {
                 </span>
               </PrimaryButton>
             </Link>
-            <Link to="/contact">
+            <Link href="/contact">
               <SecondaryButton className="border-white text-white hover:bg-white/10">
                 <span className="flex items-center">
                   Nous contacter
@@ -138,8 +139,15 @@ const CtaSection = () => {
                 <FadeIn key={index} delay={index * 0.2}>
                   <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
                     <div className="flex items-center mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-asm-yellow-500/20 to-asm-yellow-600/20 rounded-full flex items-center justify-center text-asm-yellow-300 font-bold text-xl mr-4">
-                        {testimonial.name.charAt(0)}
+                      <div className="w-16 h-16 rounded-full overflow-hidden mr-4 bg-gradient-to-br from-asm-yellow-500/20 to-asm-yellow-600/20 flex items-center justify-center">
+                        <Image
+                          src={`/images/testimonial-${index + 1}.jpg`}
+                          alt={testimonial.name}
+                          width={64}
+                          height={64}
+                          className="object-cover"
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
                       </div>
                       <div>
                         <h4 className="text-lg font-semibold text-white">

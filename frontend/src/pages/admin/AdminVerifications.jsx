@@ -1,6 +1,7 @@
+﻿'use client';
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { RefreshCw, Users } from "lucide-react";
 
 // Hooks
@@ -17,7 +18,7 @@ import EmptyState from "../../components/verification/EmptyState";
 import Pagination from "../../components/verification/Pagination";
 
 const AdminVerifications = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const {
     // États
     pendingUsers,

@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/AdminUsers.jsx
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";

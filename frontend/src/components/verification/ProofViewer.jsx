@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/verifications/components/ProofViewer.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -111,7 +112,7 @@ const ProofViewer = ({ filename, mimetype, onDownload }) => {
         const token = localStorage.getItem("token");
 
         // ESSAI 1: Endpoint admin preview
-        const previewUrl = `https://asm-mada.onrender.com/api/proofs/admin/proof/preview/${filename}`;
+        const previewUrl = `/api/proofs/admin/proof/preview/${filename}`;
 
         try {
           const response = await fetch(previewUrl, {
@@ -130,7 +131,7 @@ const ProofViewer = ({ filename, mimetype, onDownload }) => {
         }
 
         // ESSAI 2: Accès direct via uploads
-        const directUrl = `https://asm-mada.onrender.com/uploads/proofs/${filename}`;
+        const directUrl = `/uploads/proofs/${filename}`;
         const directResponse = await fetch(directUrl, {
           headers: { Authorization: `Bearer ${token}` },
         });

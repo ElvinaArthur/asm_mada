@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/components/UsersTable.jsx
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";

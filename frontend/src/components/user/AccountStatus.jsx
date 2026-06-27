@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { Shield, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { SlideUp } from "../ui/animations/index";

@@ -1,7 +1,8 @@
+﻿'use client';
 // frontend/src/pages/admin/AdminBooksAdd.jsx - VERSION CORRIGÉE
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Upload,
@@ -20,7 +21,7 @@ import {
 import { adminService } from "../../services/adminService";
 
 const AdminBooksAdd = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
@@ -104,7 +105,7 @@ const AdminBooksAdd = () => {
 
       // Envoyer au backend
       const response = await fetch(
-        "https://asm-mada.onrender.com/api/admin/books",
+        "/api/admin/books",
         {
           method: "POST",
           headers: {
@@ -124,7 +125,7 @@ const AdminBooksAdd = () => {
 
       // Rediriger après succès
       setTimeout(() => {
-        navigate("/admin/books");
+        router.push("/admin/books");
       }, 2000);
     } catch (error) {
       console.error("Erreur ajout livre:", error);
@@ -203,7 +204,7 @@ const AdminBooksAdd = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate("/admin/books")}
+            onClick={() => router.push("/admin/books")}
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -414,7 +415,7 @@ const AdminBooksAdd = () => {
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={() => navigate("/admin/books")}
+                  onClick={() => router.push("/admin/books")}
                   className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   Annuler

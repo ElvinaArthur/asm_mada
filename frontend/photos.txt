@@ -1,0 +1,44 @@
+LISTE DES PHOTOS UTILISÉES - ASM Alumni
+========================================
+Générées avec Midjourney ou DALL-E 3
+
+1. hero-bg.jpg
+   Emplacement: /public/images/hero-bg.jpg
+   Utilisé dans: src/pages/Home/HeroSection.jsx (fond du hero)
+   Prompt: "Aerial view of Antananarivo Madagascar city landscape at golden hour, sociologists and students gathering in a modern university campus, green hills in the background, warm sunset light, professional photography, cinematic, 4k"
+
+2. testimonial-1.jpg
+   Emplacement: /public/images/testimonial-1.jpg
+   Utilisé dans: src/pages/Home/CtaSection.jsx (photo Dr. Marie Rasoanaivo)
+   Prompt: "Professional headshot portrait of a Malagasy female sociologist in her 40s, academic setting, warm smile, wearing professional attire, natural lighting, university office background, photorealistic"
+
+3. testimonial-2.jpg
+   Emplacement: /public/images/testimonial-2.jpg
+   Utilisé dans: src/pages/Home/CtaSection.jsx (photo Pr. Jean Ravelo)
+   Prompt: "Professional headshot portrait of a Malagasy male professor in his 50s, academic background, confident expression, wearing suit and tie, warm lighting, bookshelves in background, photorealistic"
+
+4. gallery-conference.jpg
+   Emplacement: /public/images/gallery-conference.jpg
+   Utilisé dans: src/pages/Home/StatsPreview.jsx (galerie photo)
+   Prompt: "Academic conference room in Madagascar, sociologists presenting research, projector screen showing graphs, diverse group of professionals, modern auditorium, professional event photography"
+
+5. gallery-team.jpg
+   Emplacement: /public/images/gallery-team.jpg
+   Utilisé dans: src/pages/Home/StatsPreview.jsx (galerie photo)
+   Prompt: "Group photo of Malagasy sociology association members, diverse group of professionals and academics, outdoor university campus, smiling, casual professional attire, bright sunny day, group portrait"
+
+6. gallery-event.jpg
+   Emplacement: /public/images/gallery-event.jpg
+   Utilisé dans: src/pages/Home/StatsPreview.jsx (galerie photo)
+   Prompt: "Annual sociology association event in Madagascar, networking reception, professionals mingling, tropical indoor venue with plants, evening lighting, professional event photography"
+
+7. gallery-research.jpg
+   Emplacement: /public/images/gallery-research.jpg
+   Utilisé dans: src/pages/Home/StatsPreview.jsx (galerie photo)
+   Prompt: "Malagasy sociologist conducting field research in rural Madagascar, interviewing community members, taking notes, green landscape background, documentary photography style, authentic and natural"
+
+INSTRUCTIONS:
+- Placez ces images dans le dossier: frontend/public/images/
+- Les images doivent être en format JPG ou WebP
+- Taille recommandée: hero-bg.jpg (1920x1080), galerie (800x800), testimonials (200x200)
+- Si une image est manquante, un gradient de remplacement s'affiche automatiquement

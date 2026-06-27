@@ -1,8 +1,9 @@
+﻿'use client';
 // components/events/EventHero.jsx
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Users, Globe, MapPin, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
 import SecondaryButton from "../ui/buttons/SecondaryButton";
 import { FadeIn, SlideUp, TypewriterEffect } from "../ui/animations/index";
@@ -67,7 +68,7 @@ const EventHero = () => {
         </FadeIn>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <Link to="/events?filter=upcoming">
+          <Link href="/events?filter=upcoming">
             <PrimaryButton className="group">
               <span className="flex items-center">
                 Voir les événements à venir
@@ -75,7 +76,7 @@ const EventHero = () => {
               </span>
             </PrimaryButton>
           </Link>
-          <Link to="/events?filter=featured">
+          <Link href="/events?filter=featured">
             <SecondaryButton>
               <span className="flex items-center">
                 Événements en vedette

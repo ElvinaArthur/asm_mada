@@ -1,10 +1,11 @@
+﻿'use client';
 // pages/admin/AdminEventsAdd.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { adminEventService } from "../../services/api/events";
 
 const AdminEventsAdd = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
@@ -80,7 +81,7 @@ const AdminEventsAdd = () => {
       }
 
       await adminEventService.createEvent(formDataToSend);
-      navigate("/admin/events");
+      router.push("/admin/events");
     } catch (err) {
       console.error("❌ Erreur:", err);
       setError("Erreur lors de la création");
@@ -95,7 +96,7 @@ const AdminEventsAdd = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate("/admin/events")}
+            onClick={() => router.push("/admin/events")}
             className="mb-4 px-4 py-2 text-gray-600 hover:text-gray-900"
           >
             ← Retour
@@ -366,7 +367,7 @@ const AdminEventsAdd = () => {
             <div className="flex gap-4 pt-6 border-t">
               <button
                 type="button"
-                onClick={() => navigate("/admin/events")}
+                onClick={() => router.push("/admin/events")}
                 className="px-6 py-3 border text-gray-700 rounded-lg hover:bg-gray-50"
               >
                 Annuler

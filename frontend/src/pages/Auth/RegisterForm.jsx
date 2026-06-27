@@ -1,9 +1,10 @@
+﻿'use client';
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { Upload, User, Mail, Lock, FileText, Calendar } from "lucide-react";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -78,7 +79,7 @@ const RegisterForm = () => {
         alert(
           "Inscription réussie ! Votre compte sera activé après vérification.",
         );
-        navigate("/auth?mode=login");
+        router.push("/auth?mode=login");
       }, 1500);
     } catch (error) {
       setIsSubmitting(false);

@@ -1,3 +1,4 @@
+﻿'use client';
 // components/events/EventImage.jsx
 import React, { useState } from "react";
 
@@ -8,7 +9,7 @@ const EventImage = ({
   showOverlay = false,
   objectFit = "cover",
   objectPosition = "center",
-  fallbackImage = "https://asm-mada.onrender.com/default-event.jpg",
+  fallbackImage = "/default-event.jpg",
 }) => {
   const [imgError, setImgError] = useState(false);
 
@@ -29,14 +30,14 @@ const EventImage = ({
     if (event.imageUrl && event.imageUrl !== "/default-event.jpg") {
       const url = event.imageUrl.startsWith("http")
         ? event.imageUrl
-        : `https://asm-mada.onrender.com${event.imageUrl}`;
+        : `\${API_BASE}\${event.imageUrl}`;
       console.log("📤 Utilisation imageUrl:", url);
       return url;
     }
 
     // Sinon utiliser le nom de fichier
     if (event.image) {
-      const url = `https://asm-mada.onrender.com/uploads/events/${event.image}`;
+      const url = `/uploads/events/${event.image}`;
       console.log("📤 Utilisation image:", url);
       return url;
     }

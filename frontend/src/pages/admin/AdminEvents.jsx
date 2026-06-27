@@ -1,6 +1,7 @@
+﻿'use client';
 // pages/admin/AdminEvents.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { adminEventService } from "../../services/api/events";
 import {
   Plus,
@@ -83,7 +84,7 @@ const AdminEvents = () => {
               <p className="text-gray-600">Gérez les événements de l'ASM</p>
             </div>
             <Link
-              to="/admin/events/add"
+              href="/admin/events/add"
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />
@@ -137,7 +138,7 @@ const AdminEvents = () => {
                 : "Commencez par créer un événement"}
             </p>
             <Link
-              to="/admin/events/add"
+              href="/admin/events/add"
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />

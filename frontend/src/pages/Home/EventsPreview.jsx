@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -9,7 +10,7 @@ import {
   CalendarDays,
   Trophy,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton";
 import { FadeIn, SlideUp, HoverEffect } from "../../components/ui/animations";
@@ -57,7 +58,7 @@ const EventsPreview = () => {
               Participez à nos rencontres professionnelles
             </p>
           </SlideUp>
-          <Link to="/events">
+          <Link href="/events">
             <HoverEffect>
               <SecondaryButton className="mb-12">
                 <span className="flex items-center">
@@ -80,14 +81,14 @@ const EventsPreview = () => {
               sociologie
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/events/propose">
+              <Link href="/events/propose">
                 <HoverEffect>
                   <button className="bg-white text-asm-green-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition">
                     Proposer un événement
                   </button>
                 </HoverEffect>
               </Link>
-              <Link to="/contact">
+              <Link href="/contact">
                 <HoverEffect>
                   <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-semibold py-3 px-8 rounded-lg transition">
                     Contactez-nous

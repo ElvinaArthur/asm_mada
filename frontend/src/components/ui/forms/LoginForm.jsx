@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import InputField from "./InputField";

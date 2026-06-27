@@ -1,3 +1,4 @@
+﻿'use client';
 import React from "react";
 import { Library, User, FileText, Settings } from "lucide-react";
 import { HoverEffect, SlideUp } from "../ui/animations/index";

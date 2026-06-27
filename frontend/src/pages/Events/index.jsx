@@ -1,3 +1,4 @@
+﻿'use client';
 // pages/Events/index.jsx
 import React, { useState, useEffect } from "react";
 import EventHero from "../../components/events/EventHero";

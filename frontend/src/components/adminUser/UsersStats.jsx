@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/components/UsersStats.jsx
 import React from "react";
 import { motion } from "framer-motion";

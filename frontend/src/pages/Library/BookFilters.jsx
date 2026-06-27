@@ -1,3 +1,4 @@
+﻿'use client';
 // src/pages/Library/BookFilters.jsx
 // ✅ Années dynamiques depuis les vrais livres, design cohérent avec LibraryPage
 

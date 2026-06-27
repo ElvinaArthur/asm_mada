@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { FadeIn, HoverEffect } from "../ui/animations/index";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
@@ -8,7 +9,7 @@ const AuthHeader = ({ isLogin = true }) => {
   return (
     <FadeIn>
       <div className="text-center mb-12">
-        <Link to="/" className="inline-block">
+        <Link href="/" className="inline-block">
           <HoverEffect>
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-asm-green-500 to-asm-yellow-500 rounded-xl flex items-center justify-center shadow-lg">

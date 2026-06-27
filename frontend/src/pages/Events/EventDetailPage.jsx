@@ -1,7 +1,8 @@
+﻿'use client';
 // pages/Events/EventDetailPage.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useParams, useNavigate } from "react-router-dom";
+import { useRouter, useParams } from 'next/navigation';
 import {
   Calendar,
   MapPin,
@@ -34,8 +35,9 @@ import EventRegistrationModal from "../../components/events/EventRegistrationMod
 import EventImage from "../../components/events/EventImage";
 
 const EventDetailPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const params = useParams();
+  const id = params?.id;
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -235,7 +237,7 @@ const EventDetailPage = () => {
             L'événement que vous cherchez n'existe pas ou a été supprimé.
           </p>
           <button
-            onClick={() => navigate("/events")}
+            onClick={() => router.push("/events")}
             className="px-6 py-3 bg-asm-green-600 text-white rounded-lg hover:bg-asm-green-700 transition"
           >
             Retour aux événements
@@ -259,7 +261,7 @@ const EventDetailPage = () => {
                 className="w-full h-full"
                 objectFit="contain"
                 objectPosition="center"
-                fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
+                fallbackImage="/default-event.jpg"
               />
             </div>
           ) : (
@@ -289,7 +291,7 @@ const EventDetailPage = () => {
             <motion.button
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              onClick={() => navigate("/events")}
+              onClick={() => router.push("/events")}
               className="flex items-center text-gray-300 hover:text-white bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/20 transition"
             >
               <ChevronLeft className="w-5 h-5 mr-2" />
@@ -600,7 +602,7 @@ const EventDetailPage = () => {
                     Découvrez d'autres événements dans la même catégorie
                   </p>
                 </div>
-                <SecondaryButton onClick={() => navigate("/events")}>
+                <SecondaryButton onClick={() => router.push("/events")}>
                   Voir tous les événements
                 </SecondaryButton>
               </div>
@@ -614,15 +616,15 @@ const EventDetailPage = () => {
                       relatedEvent.imageUrl !== "/default-event.jpg"
                     ) {
                       return relatedEvent.imageUrl.startsWith("/")
-                        ? `https://asm-mada.onrender.com${relatedEvent.imageUrl}`
+                        ? `\${API_BASE}\${relatedEvent.imageUrl}`
                         : relatedEvent.imageUrl;
                     }
 
                     if (relatedEvent.image) {
-                      return `https://asm-mada.onrender.com/uploads/events/${relatedEvent.image}`;
+                      return `/uploads/events/${relatedEvent.image}`;
                     }
 
-                    return "https://asm-mada.onrender.com/default-event.jpg";
+                    return "/default-event.jpg";
                   };
 
                   const imageUrl = getRelatedImageUrl();
@@ -630,7 +632,7 @@ const EventDetailPage = () => {
                   return (
                     <div
                       key={relatedEvent.id}
-                      onClick={() => navigate(`/events/${relatedEvent.id}`)}
+                      onClick={() => router.push(`/events/${relatedEvent.id}`)}
                       className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-asm-green-500/30 hover:bg-white/10 transition-all cursor-pointer group"
                     >
                       <div className="h-40 bg-gradient-to-br from-asm-green-900/50 to-asm-yellow-900/50 relative overflow-hidden">
@@ -640,7 +642,7 @@ const EventDetailPage = () => {
                           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                           onError={(e) => {
                             e.target.src =
-                              "https://asm-mada.onrender.com/default-event.jpg";
+                              "/default-event.jpg";
                           }}
                         />
                         {/* Overlay léger */}
@@ -687,7 +689,7 @@ const EventDetailPage = () => {
               event={event}
               className="max-w-full max-h-[90vh] object-contain"
               objectFit="contain"
-              fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
+              fallbackImage="/default-event.jpg"
             />
 
             <button

@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/DirectoryFilters.jsx
 import React from "react";
 import { Search, MapPin, Filter } from "lucide-react";

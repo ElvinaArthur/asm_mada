@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/DirectoryPagination.jsx
 import React from "react";
 

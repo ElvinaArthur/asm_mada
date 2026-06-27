@@ -1,3 +1,4 @@
+﻿'use client';
 // components/events/EventFilters.jsx
 import React from "react";
 

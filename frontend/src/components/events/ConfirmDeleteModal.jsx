@@ -1,3 +1,4 @@
+﻿'use client';
 // components/modals/ConfirmDeleteModal.jsx
 import React from "react";
 

@@ -1,5 +1,6 @@
+﻿'use client';
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Mail, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
 import { FadeIn, SlideUp } from "../../components/ui/animations";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
@@ -34,7 +35,7 @@ const ForgotPassword = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <Link
-              to="/auth"
+              href="/auth"
               className="inline-flex items-center gap-2 text-gray-600 hover:text-asm-green-600 mb-6"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -70,7 +71,7 @@ const ForgotPassword = () => {
                     Ouvrir ma boîte mail
                   </PrimaryButton>
                   <Link
-                    to="/auth"
+                    href="/auth"
                     className="block text-center text-asm-green-600 hover:text-asm-green-700 font-medium"
                   >
                     Retour à la connexion

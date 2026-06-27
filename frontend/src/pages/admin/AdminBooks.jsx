@@ -1,7 +1,8 @@
+﻿'use client';
 // frontend/src/pages/admin/AdminBooks.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import {
   BookOpen,
   Search,
@@ -29,7 +30,7 @@ import {
 import { adminService } from "../../services/adminService";
 
 const AdminBooks = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -222,7 +223,7 @@ const AdminBooks = () => {
               <Eye className="w-4 h-4 text-gray-700" />
             </button>
             <button
-              onClick={() => navigate(`/admin/books/edit/${book.id}`)}
+              onClick={() => router.push(`/admin/books/edit/${book.id}`)}
               className="p-2 bg-white/90 backdrop-blur-sm rounded hover:bg-white"
               title="Modifier"
             >
@@ -368,7 +369,7 @@ const AdminBooks = () => {
                 Supprimer ({selectedBooks.length})
               </button>
               <button
-                onClick={() => navigate("/admin/books/add")}
+                onClick={() => router.push("/admin/books/add")}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
               >
                 <Plus className="w-5 h-5" />
@@ -520,7 +521,7 @@ const AdminBooks = () => {
                 : "Commencez par ajouter votre premier livre"}
             </p>
             <button
-              onClick={() => navigate("/admin/books/add")}
+              onClick={() => router.push("/admin/books/add")}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />

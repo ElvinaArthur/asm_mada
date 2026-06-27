@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/components/ExportModal.jsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";

@@ -1,3 +1,4 @@
+﻿'use client';
 // src/pages/user/ProfilePage.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthContext";
@@ -21,7 +22,7 @@ import {
   BookOpen,
 } from "lucide-react";
 
-const API_BASE = "https://asm-mada.onrender.com";
+const API_BASE = process.env.NEXT_PUBLIC_APP_URL || "";
 
 // ─── Privacy Toggle ────────────────────────────────────────────────
 const PrivacyToggle = ({ checked, onChange, label }) => (

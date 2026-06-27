@@ -1,10 +1,9 @@
+﻿'use client';
 // src/components/layout/Footer/Footer.jsx — VERSION MISE À JOUR
-// Suppression section "Ressources"
-// Ajout colonne "Légal" avec tous les liens obligatoires
 
 import React from "react";
-import { Link } from "react-router-dom";
-import { Mail, MapPin, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { Mail, MapPin } from "lucide-react";
 import FooterLinks from "./FooterLinks";
 import SocialIcons from "./SocialIcons";
 
@@ -103,7 +102,7 @@ const Footer = () => {
               ].map((link) => (
                 <li key={link.name}>
                   <Link
-                    to={link.path}
+                    href={link.path}
                     className="group flex items-center text-gray-400 hover:text-white transition-all duration-200 text-sm"
                   >
                     <span className="h-px w-0 bg-gradient-to-r from-asm-green-500 to-asm-yellow-500 group-hover:w-4 mr-3 transition-all duration-300" />
@@ -126,28 +125,28 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-4 flex-wrap justify-center">
               <Link
-                to="/legal/privacy"
+                href="/legal/privacy"
                 className="hover:text-white transition-colors"
               >
                 Confidentialité
               </Link>
               <span className="text-gray-700">·</span>
               <Link
-                to="/legal/terms"
+                href="/legal/terms"
                 className="hover:text-white transition-colors"
               >
                 Conditions
               </Link>
               <span className="text-gray-700">·</span>
               <Link
-                to="/legal/cookies"
+                href="/legal/cookies"
                 className="hover:text-white transition-colors"
               >
                 Cookies
               </Link>
               <span className="text-gray-700">·</span>
               <Link
-                to="/legal/mentions"
+                href="/legal/mentions"
                 className="hover:text-white transition-colors"
               >
                 Mentions légales

@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/hooks/useUsers.js
 import { useState, useEffect, useCallback } from "react";
 import { adminService } from "../services/adminService";

@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/MemberDetailsModal.jsx
 import React, { useState, useEffect } from "react";
 import {
@@ -104,7 +105,7 @@ const MemberDetailsModal = ({ isOpen, onClose, memberId, isAdmin = false }) => {
                       >
                         {member.photoUrl ? (
                           <img
-                            src={`https://asm-mada.onrender.com${member.photoUrl}`}
+                            src={`\${API_BASE}\${member.photoUrl}`}
                             alt={member.fullName}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -279,7 +280,7 @@ const MemberDetailsModal = ({ isOpen, onClose, memberId, isAdmin = false }) => {
           >
             <div className="relative max-w-full max-h-full">
               <img
-                src={`https://asm-mada.onrender.com${member.photoUrl}`}
+                src={`\${API_BASE}\${member.photoUrl}`}
                 alt={member.fullName}
                 className="max-w-full max-h-[80vh] sm:max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
               />

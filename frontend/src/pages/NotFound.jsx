@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Home, Search } from "lucide-react";
 import { FadeIn, HoverEffect } from "../components/ui/animations";
 import PrimaryButton from "../components/ui/buttons/PrimaryButton";
@@ -30,7 +31,7 @@ const NotFoundPage = () => {
 
           <div className="space-y-4">
             <HoverEffect>
-              <Link to="/">
+              <Link href="/">
                 <PrimaryButton className="w-full py-4 flex items-center justify-center">
                   <Home className="w-5 h-5 mr-2" />
                   Retour à l'accueil
@@ -42,13 +43,13 @@ const NotFoundPage = () => {
               <p className="mb-2">Vous pouvez aussi :</p>
               <div className="flex justify-center space-x-4">
                 <Link
-                  to="/library"
+                  href="/library"
                   className="text-asm-green-600 hover:text-asm-green-700 hover:underline"
                 >
                   Explorer la bibliothèque
                 </Link>
                 <Link
-                  to="/about"
+                  href="/about"
                   className="text-asm-green-600 hover:text-asm-green-700 hover:underline"
                 >
                   Découvrir l'association

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Configuration de base de l'API
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://asm-mada.onrender.com/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "/api",
   timeout: 10000, // 10 secondes
   headers: {
     "Content-Type": "application/json",

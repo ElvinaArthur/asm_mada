@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/AdminProfile.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";

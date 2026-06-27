@@ -1,3 +1,4 @@
+﻿'use client';
 // src/pages/Library/LibraryPage.jsx
 // ✅ Spinner unifié, BookFilters intégré, stats vues/lectures réelles
 

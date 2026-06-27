@@ -1,8 +1,10 @@
+﻿'use client';
 // src/components/layout/Header/Navbar.jsx — VERSION MISE À JOUR
 // Changements : avatar avec vraie photo, lien /settings remplacé par /profile dans le menu user
 
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter, usePathname } from 'next/navigation';
 import {
   Menu,
   Search,
@@ -19,7 +21,7 @@ import { HoverEffect } from "../../ui/animations";
 import PrimaryButton from "../../ui/buttons/PrimaryButton";
 import { useAuth } from "../../../hooks/AuthContext";
 
-const API_BASE = "https://asm-mada.onrender.com";
+const API_BASE = process.env.NEXT_PUBLIC_APP_URL || "";
 
 // ─── Petit composant avatar réutilisable ──────────────────────────
 const UserAvatar = ({ user, size = "md" }) => {
@@ -70,8 +72,8 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const { user, logout, isAdmin } = useAuth();
 
@@ -111,7 +113,7 @@ const Navbar = () => {
       name: "Déconnexion",
       action: () => {
         logout();
-        navigate("/");
+        router.push("/");
         setUserMenuOpen(false);
       },
       icon: LogOut,
@@ -140,7 +142,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3 group">
+            <Link href="/" className="flex items-center space-x-3 group">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -169,15 +171,15 @@ const Navbar = () => {
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.path}
+                  href={item.path}
                   className={`relative text-sm font-medium transition-all duration-200 ${
-                    location.pathname === item.path
+                    pathname === item.path
                       ? "text-asm-green-700 font-semibold"
                       : "text-gray-700 hover:text-asm-green-600"
                   }`}
                 >
                   {item.name}
-                  {location.pathname === item.path && (
+                  {pathname === item.path && (
                     <motion.div
                       layoutId="underline"
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-asm-green-600"
@@ -206,7 +208,7 @@ const Navbar = () => {
 
               {!user ? (
                 <HoverEffect>
-                  <Link to="/auth?mode=login">
+                  <Link href="/auth?mode=login">
                     <PrimaryButton className="flex items-center space-x-2 px-6 py-2.5">
                       <User className="w-4 h-4" />
                       <span>Se connecter</span>
@@ -288,7 +290,7 @@ const Navbar = () => {
                             ) : (
                               <Link
                                 key={item.name}
-                                to={item.path}
+                                href={item.path}
                                 onClick={() => setUserMenuOpen(false)}
                                 className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition"
                               >
@@ -382,10 +384,10 @@ const Navbar = () => {
                   {mobileMenuItems.map((item) => (
                     <Link
                       key={item.name}
-                      to={item.path}
+                      href={item.path}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`block px-4 py-3 rounded-lg transition ${
-                        location.pathname === item.path
+                        pathname === item.path
                           ? "bg-asm-green-50 text-asm-green-700 font-medium"
                           : "text-gray-700 hover:bg-gray-100"
                       }`}
@@ -424,7 +426,7 @@ const Navbar = () => {
 
                     <div className="space-y-1">
                       <Link
-                        to="/dashboard"
+                        href="/dashboard"
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg text-sm"
                       >
@@ -432,7 +434,7 @@ const Navbar = () => {
                         Tableau de bord
                       </Link>
                       <Link
-                        to="/profile"
+                        href="/profile"
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg text-sm"
                       >
@@ -440,7 +442,7 @@ const Navbar = () => {
                       </Link>
                       {isAdmin && (
                         <Link
-                          to="/admin"
+                          href="/admin"
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex items-center gap-3 px-4 py-3 text-purple-700 hover:bg-purple-50 rounded-lg text-sm"
                         >
@@ -451,7 +453,7 @@ const Navbar = () => {
                       <button
                         onClick={() => {
                           logout();
-                          navigate("/");
+                          router.push("/");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg text-sm"
@@ -463,14 +465,14 @@ const Navbar = () => {
                 ) : (
                   <div className="space-y-3">
                     <Link
-                      to="/auth?mode=login"
+                      href="/auth?mode=login"
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="block w-full text-center px-4 py-3 bg-asm-green-600 text-white font-medium rounded-lg hover:bg-asm-green-700 transition"
                     >
                       Se connecter
                     </Link>
                     <Link
-                      to="/auth?mode=register"
+                      href="/auth?mode=register"
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="block w-full text-center px-4 py-3 border-2 border-asm-green-600 text-asm-green-600 font-medium rounded-lg hover:bg-asm-green-50 transition"
                     >

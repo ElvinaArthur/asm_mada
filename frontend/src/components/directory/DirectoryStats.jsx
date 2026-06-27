@@ -1,3 +1,4 @@
+﻿'use client';
 // components/directory/DirectoryStats.jsx
 import React from "react";
 import { MapPin, BookOpen } from "lucide-react";

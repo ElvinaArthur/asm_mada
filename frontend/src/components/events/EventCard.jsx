@@ -1,6 +1,7 @@
+﻿'use client';
 // components/events/EventCard.jsx
 import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import {
   Calendar,
   Clock,
@@ -106,7 +107,7 @@ const EventCard = ({ event }) => {
             objectFit="cover"
             objectPosition="center"
             showOverlay={true}
-            fallbackImage="https://asm-mada.onrender.com/default-event.jpg"
+            fallbackImage="/default-event.jpg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
         </div>
@@ -171,7 +172,7 @@ const EventCard = ({ event }) => {
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <span className="text-sm text-gray-500">{event.organizer}</span>
           <Link
-            to={`/events/${event.id}`}
+            href={`/events/${event.id}`}
             className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium text-sm group"
           >
             Voir détails

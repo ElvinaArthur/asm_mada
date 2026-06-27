@@ -1,7 +1,8 @@
+﻿'use client';
 // frontend/src/pages/VerificationRequired.jsx
 import React from "react";
 import { ShieldAlert, Clock, Upload, Mail } from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/AuthContext";
 import UploadProof from "../components/verification/UploadProof";
 
 const VerificationRequired = () => {

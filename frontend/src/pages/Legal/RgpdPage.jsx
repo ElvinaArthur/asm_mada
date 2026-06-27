@@ -1,3 +1,4 @@
+﻿'use client';
 // src/pages/Legal/RgpdPage.jsx
 import React from "react";
 import LegalLayout from "./LegalLayout";

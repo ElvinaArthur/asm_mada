@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/pages/admin/users/components/UserActions.jsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";

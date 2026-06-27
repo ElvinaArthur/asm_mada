@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/components/admin/AdminBooks.jsx
 import React, { useState, useEffect } from "react";
 import {

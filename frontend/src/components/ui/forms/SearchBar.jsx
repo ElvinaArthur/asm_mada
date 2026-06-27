@@ -1,15 +1,16 @@
+﻿'use client';
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 
 const SearchBar = ({ onClose }) => {
   const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate(`/library?search=${encodeURIComponent(query)}`);
+      router.push(`/library?search=${encodeURIComponent(query)}`);
       setQuery("");
       if (onClose) onClose();
     }

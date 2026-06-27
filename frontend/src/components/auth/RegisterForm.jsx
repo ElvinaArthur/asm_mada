@@ -1,6 +1,7 @@
+﻿'use client';
 // src/components/auth/RegisterForm.jsx - VERSION COMPLÈTE ET CORRIGÉE
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import {
   Upload,
   User,
@@ -16,7 +17,7 @@ import { useAuth } from "../../hooks/AuthContext";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { setError } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -141,7 +142,7 @@ const RegisterForm = () => {
 
       // Envoyer la requête
       const response = await fetch(
-        "https://asm-mada.onrender.com/api/register/register",
+        "/api/register/register",
         {
           method: "POST",
           body: formDataToSend,
@@ -167,7 +168,7 @@ const RegisterForm = () => {
 
       // Rediriger vers la page d'attente de vérification
       setTimeout(() => {
-        navigate("/verification-pending");
+        router.push("/verification-pending");
       }, 1000);
     } catch (error) {
       console.error("Erreur inscription:", error);

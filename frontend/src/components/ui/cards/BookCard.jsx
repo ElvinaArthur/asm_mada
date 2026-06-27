@@ -1,10 +1,11 @@
+﻿'use client';
 import React from "react";
 import { BookOpen, Download, Eye, Calendar, Clock } from "lucide-react";
 
 const BookCard = ({ book }) => {
   // Construire les URLs complètes
-  const thumbnailUrl = `https://asm-mada.onrender.com${book.thumbnailUrl}`;
-  const pdfUrl = `https://asm-mada.onrender.com${book.pdfUrl}`;
+  const thumbnailUrl = `\${API_BASE}\${book.thumbnailUrl}`;
+  const pdfUrl = `\${API_BASE}\${book.pdfUrl}`;
 
   // Couleurs par catégorie
   const getCategoryColor = (category) => {

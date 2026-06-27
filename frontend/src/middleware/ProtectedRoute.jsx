@@ -1,11 +1,21 @@
+﻿'use client';
 // frontend/src/middleware/ProtectedRoute.jsx
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import React, { useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import { useAuth } from "../hooks/AuthContext";
 
 const ProtectedRoute = ({ children, requireVerification = true }) => {
   const { user, loading } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/auth?mode=login");
+    }
+    if (!loading && user && requireVerification && user.status !== "verified") {
+      router.push("/verification-pending");
+    }
+  }, [loading, user, router, requireVerification]);
 
   if (loading) {
     return (
@@ -18,12 +28,11 @@ const ProtectedRoute = ({ children, requireVerification = true }) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return null;
   }
 
-  // Vérifier si le compte est vérifié
   if (requireVerification && user.status !== "verified") {
-    return <Navigate to="/verification-required" replace />;
+    return null;
   }
 
   return children;

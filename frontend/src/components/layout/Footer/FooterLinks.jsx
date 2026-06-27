@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const FooterLinks = ({ title, links }) => {
   return (
@@ -12,7 +13,7 @@ const FooterLinks = ({ title, links }) => {
         {links.map((link) => (
           <li key={link.name}>
             <Link
-              to={link.path}
+              href={link.path}
               className="group flex items-center text-gray-400 hover:text-white transition-all duration-200"
             >
               <span className="h-px w-0 bg-gradient-to-r from-asm-green-500 to-asm-yellow-500 group-hover:w-4 mr-3 transition-all duration-300"></span>

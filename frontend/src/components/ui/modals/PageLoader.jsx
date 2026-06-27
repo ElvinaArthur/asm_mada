@@ -1,3 +1,4 @@
+﻿'use client';
 const styles = {
   pageLoader: {
     display: "flex",

@@ -1,10 +1,11 @@
+﻿'use client';
 import React from "react";
 import HistoryTimeline from "./HistoryTimeline";
 import MissionVision from "./MissionVision";
 import ValuesSection from "./ValuesSection";
 import TeamSection from "./TeamSection";
 import { Users2, Heart, Hand, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import {
   ParallaxEffect,
   SlideUp,
@@ -61,11 +62,11 @@ const AboutPage = () => {
             {/* Call to Action Buttons - Mobile optimized */}
             <StaggerChildren delay={0.7} staggerDelay={0.1}>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
-                <Link to="/auth?mode=register" className="w-full sm:w-auto px-6 py-3 bg-asm-green-600 hover:bg-asm-green-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                <Link href="/auth?mode=register" className="w-full sm:w-auto px-6 py-3 bg-asm-green-600 hover:bg-asm-green-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                   <Users2 className="w-4 h-4" />
                   Devenir Membre
                 </Link>
-                <Link to="/events" className="w-full sm:w-auto px-6 py-3 bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                <Link href="/events" className="w-full sm:w-auto px-6 py-3 bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
                   Découvrir nos Événements
                 </Link>
               </div>
@@ -168,7 +169,7 @@ const AboutPage = () => {
 
             <StaggerChildren delay={0.3} staggerDelay={0.1}>
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4">
-                <Link to="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-asm-green-600 text-white font-semibold rounded-lg hover:bg-asm-green-700 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                <Link href="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-asm-green-600 text-white font-semibold rounded-lg hover:bg-asm-green-700 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                   <Heart className="w-4 h-4 md:w-5 md:h-5" />
                   <span>Faire un don</span>
                   <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-asm-green-600 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -176,7 +177,7 @@ const AboutPage = () => {
                   </span>
                 </Link>
 
-                <Link to="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-asm-yellow-600 text-white font-semibold rounded-lg hover:bg-asm-yellow-700 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                <Link href="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-asm-yellow-600 text-white font-semibold rounded-lg hover:bg-asm-yellow-700 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                   <Users2 className="w-4 h-4 md:w-5 md:h-5" />
                   <span>Devenir partenaire</span>
                   <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-asm-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -184,7 +185,7 @@ const AboutPage = () => {
                   </span>
                 </Link>
 
-                <Link to="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white border-2 border-asm-green-600 text-asm-green-600 font-semibold rounded-lg hover:bg-asm-green-50 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                <Link href="/contact" className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white border-2 border-asm-green-600 text-asm-green-600 font-semibold rounded-lg hover:bg-asm-green-50 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
                   <Mail className="w-4 h-4 md:w-5 md:h-5" />
                   <span>Nous contacter</span>
                   <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-asm-green-600 opacity-0 group-hover:opacity-100 transition-opacity">

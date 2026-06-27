@@ -1,3 +1,4 @@
+﻿'use client';
 // src/pages/user/Dashboard.jsx - VERSION SIMPLE ET PROPRE
 import React from "react";
 import {

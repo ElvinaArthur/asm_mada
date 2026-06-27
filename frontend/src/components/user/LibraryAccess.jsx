@@ -1,5 +1,6 @@
+﻿'use client';
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { SlideUp } from "../ui/animations/index";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
@@ -7,7 +8,7 @@ import { useAuth } from "../../hooks/AuthContext";
 import { useUserData } from "../../contexts/UserDataContext";
 
 const LibraryAccess = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { user } = useAuth();
   const { stats } = useUserData();
 
@@ -43,7 +44,7 @@ const LibraryAccess = () => {
         </div>
 
         <PrimaryButton
-          onClick={() => navigate("/library")}
+          onClick={() => router.push("/library")}
           className="w-full bg-white text-asm-green-600 hover:bg-gray-100"
         >
           Accéder à la bibliothèque

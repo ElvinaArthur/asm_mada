@@ -1,3 +1,4 @@
+﻿'use client';
 // frontend/src/components/verification/UploadProof.jsx
 import React, { useState, useRef } from "react";
 import {
@@ -28,7 +29,7 @@ const UploadProof = () => {
       if (!token) return;
 
       const response = await fetch(
-        "https://asm-mada.onrender.com/api/proofs/my-proof",
+        "/api/proofs/my-proof",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +95,7 @@ const UploadProof = () => {
       }
 
       const response = await fetch(
-        "https://asm-mada.onrender.com/api/proofs/upload-proof",
+        "/api/proofs/upload-proof",
         {
           method: "POST",
           headers: {
@@ -217,7 +218,7 @@ const UploadProof = () => {
                   </p>
                 </div>
                 <a
-                  href={`https://asm-mada.onrender.com/api/proofs/download/${uploadedProof.filename}`}
+                  href={`/api/proofs/download/${uploadedProof.filename}`}
                   className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm"
                   download
                 >
