@@ -29,3 +29,30 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ success: true, data: rows, total: parseInt(countRows[0].total as string) });
 }
+
+export async function POST(req: NextRequest) {
+  const user = await getAuthUser(req);
+  const err = requireAdmin(user);
+  if (err) return NextResponse.json(err.body, { status: err.status });
+
+  const { action, userIds } = await req.json();
+
+  try {
+    if (action === 'bulk-approve' || action === 'bulk-verify') {
+      for (const id of userIds) {
+        await sql`UPDATE users SET "isVerified" = true, proof_status = 'approved', "verifiedAt" = NOW() WHERE id = ${id}`;
+      }
+      return NextResponse.json({ success: true, message: `${userIds.length} comptes vérifiés` });
+    }
+    if (action === 'bulk-delete') {
+      for (const id of userIds) {
+        await sql`DELETE FROM users WHERE id = ${id}`;
+      }
+      return NextResponse.json({ success: true, message: `${userIds.length} comptes supprimés` });
+    }
+    return NextResponse.json({ success: false, message: 'Action inconnue' }, { status: 400 });
+  } catch (error) {
+    console.error('Bulk user action error:', error);
+    return NextResponse.json({ success: false, message: 'Erreur serveur' }, { status: 500 });
+  }
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
+import { PDFDocument, rgb, degrees, StandardFonts } from 'pdf-lib';
 import path from 'path';
 import fs from 'fs';
 
@@ -8,13 +9,10 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  // Vérifier l'authentification
   const user = await getAuthUser(req);
   if (!user) {
     return NextResponse.json({ success: false, message: 'Non autorisé' }, { status: 401 });
   }
-
-  // Vérifier que l'utilisateur est vérifié
   if (!user.isVerified && user.role !== 'admin') {
     return NextResponse.json({ success: false, message: 'Compte non vérifié' }, { status: 403 });
   }
@@ -28,30 +26,72 @@ export async function GET(
     const book = result.rows[0];
     const fileName = book.fileName as string;
 
-    // Le fichier est dans public/
-    const filePath = path.join(process.cwd(), 'public', fileName);
+    let pdfBytes: Uint8Array;
 
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ success: false, message: 'Fichier introuvable' }, { status: 404 });
+    if (fileName.startsWith('http')) {
+      // Vercel Blob URL
+      const response = await fetch(fileName);
+      if (!response.ok) return NextResponse.json({ success: false, message: 'Fichier introuvable' }, { status: 404 });
+      pdfBytes = new Uint8Array(await response.arrayBuffer());
+    } else {
+      // Fichier local dans public/
+      const filePath = path.join(process.cwd(), 'public', fileName);
+      if (!fs.existsSync(filePath)) {
+        return NextResponse.json({ success: false, message: 'Fichier introuvable' }, { status: 404 });
+      }
+      pdfBytes = new Uint8Array(fs.readFileSync(filePath));
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
+    // === WATERMARK avec pdf-lib ===
+    try {
+      const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const pages = pdfDoc.getPages();
+
+      const watermarkText = `© ASM 2026 — Lecture autorisée uniquement sur asm-mada.vercel.app`;
+
+      for (const page of pages) {
+        const { width, height } = page.getSize();
+
+        // Filigrane diagonal en milieu de page
+        page.drawText(watermarkText, {
+          x: width / 2 - 280,
+          y: height / 2,
+          size: 14,
+          font: helvetica,
+          color: rgb(0.75, 0.75, 0.75),
+          opacity: 0.35,
+          rotate: degrees(45),
+        });
+
+        // Filigrane en bas de chaque page
+        page.drawText(`ASM — asm-mada.vercel.app`, {
+          x: 20,
+          y: 12,
+          size: 8,
+          font: helvetica,
+          color: rgb(0.6, 0.6, 0.6),
+          opacity: 0.5,
+        });
+      }
+
+      pdfBytes = await pdfDoc.save();
+    } catch (wErr) {
+      console.warn('Watermark skipped (PDF encrypted or error):', (wErr as Error).message);
+      // Servir le PDF original sans watermark si erreur
+    }
 
     // Incrémenter les vues
     await sql`UPDATE books SET views = views + 1 WHERE id = ${parseInt(params.id)}`;
 
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        // Affichage inline sans bouton télécharger
         'Content-Disposition': `inline; filename="${encodeURIComponent(book.title as string)}.pdf"`,
-        // Empêcher le téléchargement et la mise en cache
         'Cache-Control': 'no-store, no-cache, must-revalidate',
         'X-Content-Type-Options': 'nosniff',
-        // Empêcher l'embedding externe
         'X-Frame-Options': 'SAMEORIGIN',
-        'Content-Security-Policy': "default-src 'self'",
       },
     });
   } catch (error) {

@@ -34,7 +34,7 @@ export const adminService = {
   // ==================== DASHBOARD ====================
   getDashboardStats: async () => {
     try {
-      const response = await adminApi.get("/dashboard/stats");
+      const response = await adminApi.get("/stats");
       return response.data;
     } catch (error) {
       console.error("Erreur dashboard stats:", error);
@@ -65,7 +65,7 @@ export const adminService = {
 
   verifyUser: async (userId) => {
     try {
-      const response = await adminApi.put(`/users/${userId}/verify`);
+      const response = await adminApi.put(`/users/${userId}`, { action: 'verify' });
       return response.data;
     } catch (error) {
       console.error("Erreur verify user:", error);
@@ -76,10 +76,7 @@ export const adminService = {
   // ==================== GESTION DES JUSTIFICATIFS ====================
   rejectUserWithReason: async (userId, reason) => {
     try {
-      const response = await adminApi.put(
-        `/users/${userId}/reject-with-reason`,
-        { reason },
-      );
+      const response = await adminApi.put(`/users/${userId}`, { action: 'reject', reason });
       return response.data;
     } catch (error) {
       console.error("Erreur rejet avec raison:", error);
@@ -119,7 +116,7 @@ export const adminService = {
 
   toggleBlockUser: async (userId) => {
     try {
-      const response = await adminApi.put(`/users/${userId}/toggle-block`);
+      const response = await adminApi.put(`/users/${userId}`, { action: 'toggle-block' });
       return response.data;
     } catch (error) {
       console.error("Erreur toggle block:", error);
@@ -139,7 +136,7 @@ export const adminService = {
 
   bulkApproveUsers: async (userIds) => {
     try {
-      const response = await adminApi.post("/users/bulk-approve", { userIds });
+      const response = await adminApi.post("/users", { action: 'bulk-approve', userIds });
       return response.data;
     } catch (error) {
       console.error("Erreur bulk approve:", error);
@@ -171,7 +168,7 @@ export const adminService = {
 
   getBookById: async (bookId) => {
     try {
-      const response = await adminApi.get(`/books/${bookId}`);
+      const response = await adminApi.get(`/books/${bookId}`); // → /api/admin/books/[id]
       return response.data;
     } catch (error) {
       console.error("Erreur get book by id:", error);

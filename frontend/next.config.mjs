@@ -11,7 +11,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['bcryptjs', 'sharp'],
+    serverComponentsExternalPackages: ['bcryptjs', 'sharp', 'pdf-lib'],
   },
 };
 

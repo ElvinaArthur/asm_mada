@@ -84,7 +84,7 @@ const useVerifications = () => {
       }
 
       const response = await fetch(
-        `/api/proofs/admin/proof/${userId}`,
+        `/api/admin/users/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -93,8 +93,16 @@ const useVerifications = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          setProofDetails(data.data);
-          setSelectedUser(data.data.user);
+          // Construire proofDetails depuis les données utilisateur
+          const userData = data.data;
+          setProofDetails({
+            proofUrl: userData.proof_filename,
+            proofStatus: userData.proof_status,
+            fileType: userData.proof_filename
+              ? (userData.proof_filename.match(/\.(pdf)$/i) ? 'pdf' : 'image')
+              : null,
+          });
+          setSelectedUser(userData);
           setIsProofModalOpen(true);
         }
       }
@@ -116,6 +124,7 @@ const useVerifications = () => {
         `/api/admin/verifications/verify/${userId}`,
         {
           method: "POST",
+
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

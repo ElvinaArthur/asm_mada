@@ -130,7 +130,6 @@ const AdminVerifications = () => {
           isOpen={isProofModalOpen}
           onClose={() => {
             setIsProofModalOpen(false);
-            setProofDetails(null);
           }}
           proofDetails={proofDetails}
           selectedUser={selectedUser}
