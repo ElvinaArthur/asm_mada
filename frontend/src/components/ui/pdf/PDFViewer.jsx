@@ -1,27 +1,71 @@
-﻿'use client';
-import React, { useEffect } from "react";
+'use client';
+import React, { useEffect, useState } from "react";
 import {
-  ExternalLink,
   Lock,
   AlertCircle,
   BookOpen,
   X,
-  Download,
-  Eye,
+  Loader2,
 } from "lucide-react";
 
 const PDFViewer = ({ pdfUrl, bookTitle, bookAuthor, onClose }) => {
-  // Ouvrir automatiquement dans un nouvel onglet
+  const [status, setStatus] = useState("loading"); // loading | open | error
+  const [errorMsg, setErrorMsg] = useState("");
+
   useEffect(() => {
-    // Ouvrir le PDF dans un nouvel onglet avec paramètres de visualisation
-    const url = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    let objectUrl = null;
+
+    const openPDF = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(pdfUrl, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          setErrorMsg("Accès non autorisé. Vérifiez que votre compte est validé.");
+          setStatus("error");
+          return;
+        }
+        if (!res.ok) {
+          setErrorMsg(`Impossible de charger le document (erreur ${res.status}).`);
+          setStatus("error");
+          return;
+        }
+
+        const blob = await res.blob();
+        objectUrl = URL.createObjectURL(blob);
+
+        // Ouvrir dans un nouvel onglet — URL temporaire locale, non téléchargeable
+        const newTab = window.open(objectUrl, "_blank", "noopener,noreferrer");
+        if (!newTab) {
+          setErrorMsg("Le navigateur a bloqué le pop-up. Autorisez les pop-ups pour ce site puis réessayez.");
+          setStatus("error");
+          return;
+        }
+
+        setStatus("open");
+
+        // Révoquer le blob URL après 5 min (le PDF est déjà chargé dans l'onglet)
+        setTimeout(() => {
+          if (objectUrl) URL.revokeObjectURL(objectUrl);
+        }, 5 * 60 * 1000);
+      } catch (err) {
+        setErrorMsg("Erreur réseau. Vérifiez votre connexion et réessayez.");
+        setStatus("error");
+      }
+    };
+
+    openPDF();
+
+    return () => {
+      // Ne pas révoquer immédiatement — l'onglet est encore en train de charger
+    };
   }, [pdfUrl]);
 
   return (
     <div className="fixed inset-0 bg-gray-900/95 z-50 flex flex-col items-center justify-center p-8">
-      {/* Contenu informatif */}
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -29,102 +73,63 @@ const PDFViewer = ({ pdfUrl, bookTitle, bookAuthor, onClose }) => {
               <BookOpen className="w-8 h-8 text-green-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{bookTitle}</h2>
-              <p className="text-gray-600 mt-1">{bookAuthor}</p>
+              <h2 className="text-xl font-bold text-gray-900 leading-tight">{bookTitle}</h2>
+              {bookAuthor && <p className="text-gray-500 text-sm mt-1">{bookAuthor}</p>}
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
-          >
-            <X className="w-6 h-6 text-gray-500" />
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition">
+            <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
-        {/* Message principal */}
-        <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-6">
-          <div className="flex items-start gap-4">
-            <Eye className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+        {/* État : chargement */}
+        {status === "loading" && (
+          <div className="flex flex-col items-center py-8 gap-4">
+            <Loader2 className="w-10 h-10 text-green-600 animate-spin" />
+            <p className="text-gray-600 text-center">Chargement du document sécurisé…</p>
+          </div>
+        )}
+
+        {/* État : ouvert */}
+        {status === "open" && (
+          <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5 mb-5">
+            <p className="text-green-800 font-semibold mb-1">Document ouvert dans un nouvel onglet ✓</p>
+            <p className="text-green-700 text-sm">
+              Le document s'affiche dans votre navigateur. Si l'onglet ne s'est pas ouvert,
+              autorisez les pop-ups pour ce site.
+            </p>
+          </div>
+        )}
+
+        {/* État : erreur */}
+        {status === "error" && (
+          <div className="bg-red-50 border-2 border-red-200 rounded-xl p-5 mb-5 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="text-lg font-semibold text-green-900 mb-2">
-                Document ouvert dans un nouvel onglet
-              </h3>
-              <p className="text-green-800">
-                Le PDF s'ouvre automatiquement dans un nouvel onglet de votre
-                navigateur pour une meilleure expérience de lecture.
-              </p>
+              <p className="font-semibold text-red-900 mb-1">Impossible d'ouvrir le document</p>
+              <p className="text-red-800 text-sm">{errorMsg}</p>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Boutons d'action */}
-        <div className="space-y-3 mb-6">
-          <a
-            href={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full bg-green-600 text-white py-3 px-6 rounded-xl hover:bg-green-700 transition flex items-center justify-center gap-2 font-semibold"
-          >
-            <ExternalLink className="w-5 h-5" />
-            Rouvrir le document
-          </a>
-
-          <button
-            onClick={onClose}
-            className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-200 transition font-semibold"
-          >
-            Retour à la bibliothèque
-          </button>
-        </div>
-
-        {/* Avertissement protection */}
-        <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4">
+        {/* Protection DRM */}
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-5">
           <div className="flex items-start gap-3">
-            <Lock className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-semibold text-red-900 mb-2">
-                Protection des droits d'auteur
-              </h4>
-              <ul className="text-sm text-red-800 space-y-1">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 font-bold">•</span>
-                  <span>Lecture en ligne uniquement</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 font-bold">•</span>
-                  <span>
-                    Le téléchargement peut être limité par votre navigateur
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 font-bold">•</span>
-                  <span>Reproduction et distribution interdites</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 font-bold">•</span>
-                  <span>
-                    © Association des Sociologues Malgaches (ASM) 2026
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <Lock className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" />
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li>• Lecture en ligne uniquement — téléchargement désactivé</li>
+              <li>• Reproduction et distribution interdites</li>
+              <li>• © Association des Sociologues Malgaches (ASM) 2026</li>
+            </ul>
           </div>
         </div>
 
-        {/* Note technique */}
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-blue-800">
-              <p className="font-semibold mb-1">Note :</p>
-              <p>
-                Si le document ne s'ouvre pas automatiquement, veuillez
-                autoriser les pop-ups pour ce site dans les paramètres de votre
-                navigateur, puis cliquez sur "Rouvrir le document".
-              </p>
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={onClose}
+          className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-200 transition font-semibold"
+        >
+          Retour à la bibliothèque
+        </button>
       </div>
     </div>
   );
