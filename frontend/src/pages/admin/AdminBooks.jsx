@@ -95,16 +95,11 @@ const AdminBooks = () => {
 
   const loadCategories = async () => {
     try {
-      // Simuler les catégories (remplacer par API réelle)
-      const categoriesList = [
-        { name: "sociologie", count: 5 },
-        { name: "psychologie", count: 3 },
-        { name: "travail", count: 2 },
-        { name: "santé", count: 2 },
-        { name: "environnement", count: 2 },
-        { name: "éducation", count: 1 },
-      ];
-      setCategories(categoriesList);
+      const res = await fetch("/api/books/categories", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      const data = await res.json();
+      if (data.success) setCategories(data.data || []);
     } catch (error) {
       console.error("Erreur chargement catégories:", error);
     }
@@ -115,26 +110,26 @@ const AdminBooks = () => {
 
     // Filtre recherche
     if (searchTerm) {
+      const q = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (book) =>
-          book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          book.description?.toLowerCase().includes(searchTerm.toLowerCase()),
+          book.title.toLowerCase().includes(q) ||
+          book.author.toLowerCase().includes(q) ||
+          book.description?.toLowerCase().includes(q) ||
+          (Array.isArray(book.keywords) && book.keywords.some(k => k.includes(q))),
       );
     }
 
-    // Filtre catégorie
     if (categoryFilter !== "all") {
       filtered = filtered.filter((book) => book.category === categoryFilter);
     }
 
-    // Filtre statut (à implémenter selon vos besoins)
     if (statusFilter === "popular") {
       filtered = filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
     } else if (statusFilter === "recent") {
-      filtered = filtered.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-      );
+      filtered = filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    } else if (statusFilter === "oldest") {
+      filtered = filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     }
 
     setFilteredBooks(filtered);
@@ -305,6 +300,20 @@ const AdminBooks = () => {
           </div>
         </div>
 
+        {/* Keywords */}
+        {Array.isArray(book.keywords) && book.keywords.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-3">
+            {book.keywords.slice(0, 4).map(kw => (
+              <span key={kw} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                #{kw}
+              </span>
+            ))}
+            {book.keywords.length > 4 && (
+              <span className="px-2 py-0.5 text-gray-400 text-xs">+{book.keywords.length - 4}</span>
+            )}
+          </div>
+        )}
+
         {/* Actions */}
         <div className="flex gap-2">
           <button
@@ -313,6 +322,13 @@ const AdminBooks = () => {
           >
             <Eye className="w-4 h-4" />
             Voir
+          </button>
+          <button
+            onClick={() => router.push(`/admin/books/edit/${book.id}`)}
+            className="px-3 py-2 bg-yellow-100 text-yellow-700 rounded-lg text-sm hover:bg-yellow-200"
+            title="Modifier"
+          >
+            <Edit2 className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleDeleteBook(book.id, book.title)}
@@ -462,8 +478,8 @@ const AdminBooks = () => {
               >
                 <option value="all">Toutes catégories</option>
                 {categories.map((cat) => (
-                  <option key={cat.name} value={cat.name}>
-                    {cat.name} ({cat.count})
+                  <option key={cat.category} value={cat.category}>
+                    {cat.category} ({cat.count})
                   </option>
                 ))}
               </select>
@@ -506,15 +522,15 @@ const AdminBooks = () => {
             </button>
             {categories.map((cat) => (
               <button
-                key={cat.name}
-                onClick={() => setCategoryFilter(cat.name)}
+                key={cat.category}
+                onClick={() => setCategoryFilter(cat.category)}
                 className={`px-3 py-1.5 rounded-full text-sm ${
-                  categoryFilter === cat.name
+                  categoryFilter === cat.category
                     ? "bg-blue-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                {cat.name} ({cat.count})
+                {cat.category} ({cat.count})
               </button>
             ))}
           </div>

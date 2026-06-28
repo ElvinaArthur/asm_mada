@@ -69,6 +69,7 @@ export const SCHEMA_SQL = `
     "readTime" TEXT,
     "fileName" TEXT NOT NULL UNIQUE,
     thumbnail TEXT,
+    keywords TEXT[] DEFAULT ARRAY[]::TEXT[],
     views INTEGER DEFAULT 0,
     downloads INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT NOW(),

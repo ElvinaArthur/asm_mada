@@ -15,23 +15,25 @@ export async function GET(req: NextRequest) {
   const limit = parseInt(searchParams.get('limit') || '20');
   const offset = (page - 1) * limit;
   const search = searchParams.get('search');
+  const category = searchParams.get('category');
 
   try {
-    let whereSQL = '';
+    const conditions: string[] = [];
     const params: unknown[] = [limit, offset];
+    let p = 3;
 
-    if (search) {
-      whereSQL = `WHERE title ILIKE $3 OR author ILIKE $3`;
-      params.push(`%${search}%`);
-    }
+    if (search) { conditions.push(`(title ILIKE $${p} OR author ILIKE $${p} OR $${p} = ANY(keywords))`); params.push(`%${search}%`); p++; }
+    if (category) { conditions.push(`category = $${p}`); params.push(category); p++; }
+
+    const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
     const { rows } = await sql.query(
-      `SELECT * FROM books ${whereSQL} ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+      `SELECT * FROM books ${where} ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
       params
     );
     const { rows: [{ total }] } = await sql.query(
-      `SELECT COUNT(*) as total FROM books ${whereSQL}`,
-      search ? [`%${search}%`] : []
+      `SELECT COUNT(*) as total FROM books ${where}`,
+      params.slice(2)
     );
 
     return NextResponse.json({ success: true, data: rows, total: parseInt(total) });
@@ -57,6 +59,10 @@ export async function POST(req: NextRequest) {
     const readTime    = formData.get('readTime') as string;
     const pdfFile     = formData.get('pdf') as File | null;
     const imgFile     = formData.get('thumbnail') as File | null;
+    const keywordsRaw = formData.get('keywords') as string | null;
+    const keywords: string[] = keywordsRaw
+      ? keywordsRaw.split(',').map(k => k.trim().toLowerCase()).filter(Boolean)
+      : [];
 
     if (!title || !author || !category || !pdfFile) {
       return NextResponse.json({ success: false, message: 'Titre, auteur, catégorie et PDF sont requis' }, { status: 400 });
@@ -78,7 +84,6 @@ export async function POST(req: NextRequest) {
         thumbnail = imgBlob.url;
       }
     } else {
-      // Fallback: stocker dans public/books/
       const dir = path.join(process.cwd(), 'public', 'books', slug);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, 'book.pdf'), Buffer.from(await pdfFile.arrayBuffer()));
@@ -90,13 +95,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const { rows } = await sql`
-      INSERT INTO books (title, author, description, category, year, pages, "readTime", "fileName", thumbnail)
-      VALUES (${title}, ${author}, ${description || null}, ${category},
-              ${year ? parseInt(year) : null}, ${pages ? parseInt(pages) : null},
-              ${readTime || null}, ${fileName}, ${thumbnail})
-      RETURNING *
-    `;
+    const { rows } = await sql.query(
+      `INSERT INTO books (title, author, description, category, year, pages, "readTime", "fileName", thumbnail, keywords)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+       RETURNING *`,
+      [title, author, description || null, category,
+       year ? parseInt(year) : null, pages ? parseInt(pages) : null,
+       readTime || null, fileName, thumbnail, keywords]
+    );
     return NextResponse.json({ success: true, data: rows[0] }, { status: 201 });
   } catch (error) {
     console.error('Create book error:', error);
