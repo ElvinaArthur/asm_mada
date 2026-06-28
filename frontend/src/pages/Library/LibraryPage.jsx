@@ -8,6 +8,7 @@ import { bookAPI } from "../../services/api/books";
 import BookGrid from "./BookGrid";
 import BookFilters from "./BookFilters";
 import LoadingSpinner from "../../components/shared/LoadingSpinner";
+import ProfileGate from "../../components/ProfileGate";
 
 const LibraryPage = () => {
   const [books, setBooks] = useState([]);
@@ -83,6 +84,7 @@ const LibraryPage = () => {
     filters.category !== "all" || filters.year !== "all" || searchQuery;
 
   return (
+    <ProfileGate>
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* ── Header sticky ─────────────────────────────────────── */}
       <div className="bg-white shadow-sm border-b sticky top-0 z-30">
@@ -281,6 +283,7 @@ const LibraryPage = () => {
         )}
       </div>
     </div>
+    </ProfileGate>
   );
 };
 

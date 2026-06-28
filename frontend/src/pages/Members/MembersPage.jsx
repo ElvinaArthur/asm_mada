@@ -2,6 +2,7 @@
 // pages/Members/MembersPage.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthContext";
+import ProfileGate from "../../components/ProfileGate";
 import { directoryAPI } from "../../services/directory";
 import LoadingSpinner from "../../components/shared/LoadingSpinner";
 import MemberDetailsModal from "../../components/directory/MemberDetailsModal";
@@ -125,6 +126,7 @@ const MembersPage = () => {
   };
 
   return (
+    <ProfileGate>
     <>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         {/* Hero Section */}
@@ -225,6 +227,7 @@ const MembersPage = () => {
         isAdmin={isAdmin}
       />
     </>
+    </ProfileGate>
   );
 };
 

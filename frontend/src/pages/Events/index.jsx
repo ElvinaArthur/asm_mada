@@ -5,6 +5,7 @@ import EventHero from "../../components/events/EventHero";
 import EventFilters from "../../components/events/EventFilters";
 import EventGrid from "../../components/events/EventGrid";
 import { eventService } from "../../services/api/events";
+import ProfileGate from "../../components/ProfileGate";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
@@ -52,6 +53,7 @@ const EventsPage = () => {
   };
 
   return (
+    <ProfileGate>
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
       {/* Hero Section */}
       <EventHero />
@@ -72,6 +74,7 @@ const EventsPage = () => {
         <EventGrid events={events} loading={loading} filter={filter} />
       </div>
     </div>
+    </ProfileGate>
   );
 };
 

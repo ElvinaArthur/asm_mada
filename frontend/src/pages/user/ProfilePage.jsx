@@ -2,6 +2,7 @@
 // src/pages/user/ProfilePage.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthContext";
+import { useProfileComplete } from "../../hooks/useProfileComplete";
 import {
   User,
   Mail,
@@ -59,6 +60,7 @@ const SectionHeader = ({ icon: Icon, title, rightSlot }) => (
 // ─── Main Component ────────────────────────────────────────────────
 const ProfilePage = () => {
   const { user, refreshUser } = useAuth();
+  const { isComplete, missing, progress } = useProfileComplete();
 
   const emptyAcademic = {
     degree: "",
@@ -186,6 +188,7 @@ const ProfilePage = () => {
           currentPosition: p.currentPosition || "",
           company: p.company || "",
           country: locationParsed.country || "",
+          nationality: locationParsed.nationality || "",
           province: locationParsed.province || "",
           region: locationParsed.region || "",
           city: locationParsed.city || "",
@@ -325,6 +328,7 @@ const ProfilePage = () => {
       // Localisation → JSON
       const locationObj = {
         country: formData.country,
+        nationality: formData.nationality,
         province: formData.province,
         region: formData.region,
         city: formData.city,
@@ -408,12 +412,43 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page header */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-1">Mon Profil</h1>
           <p className="text-gray-600">
-            Gérez vos informations personnelles et vos préférences de
-            confidentialité
+            Gérez vos informations personnelles et vos préférences de confidentialité
           </p>
+        </div>
+
+        {/* Barre de progression du profil */}
+        <div className={`rounded-xl shadow-md p-5 mb-6 border-l-4 ${isComplete ? 'bg-green-50 border-green-500' : 'bg-amber-50 border-amber-400'}`}>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <p className={`font-semibold text-sm ${isComplete ? 'text-green-800' : 'text-amber-800'}`}>
+                {isComplete ? '✓ Profil complet — accès total débloqué' : `Profil incomplet — ${missing.length} champ${missing.length > 1 ? 's' : ''} manquant${missing.length > 1 ? 's' : ''}`}
+              </p>
+              {!isComplete && (
+                <p className="text-xs text-amber-600 mt-0.5">
+                  Complétez votre profil pour accéder à la Bibliothèque, aux Événements et à l'Annuaire des membres.
+                </p>
+              )}
+            </div>
+            <span className={`text-2xl font-bold ${isComplete ? 'text-green-600' : 'text-amber-600'}`}>{progress}%</span>
+          </div>
+          <div className="w-full bg-white/60 rounded-full h-2.5">
+            <div
+              className={`h-2.5 rounded-full transition-all duration-500 ${isComplete ? 'bg-green-500' : 'bg-amber-400'}`}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          {!isComplete && missing.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {missing.map(f => (
+                <span key={f.key} className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200">
+                  {f.label}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Message */}
@@ -640,10 +675,25 @@ const ProfilePage = () => {
                 </p>
               </div>
 
+              {/* Nationalité */}
+              <div>
+                <label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                  <span className="text-red-500">*</span> Nationalité
+                </label>
+                <input
+                  type="text"
+                  name="nationality"
+                  value={formData.nationality || ""}
+                  onChange={handleInput}
+                  placeholder="Ex : Malagasy, Française…"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                />
+              </div>
+
               {/* Province */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Province
+                  <span className="text-red-500">*</span> Province
                 </label>
                 <input
                   type="text"
