@@ -39,6 +39,20 @@ const AdminBooks = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  // Ouvrir PDF avec auth (ouvre onglet vide sync puis navigue dedans)
+  const openPDF = (bookId) => {
+    const newTab = window.open('', '_blank');
+    const token = localStorage.getItem('token');
+    fetch(`/api/books/${bookId}/file`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    }).then(res => res.blob()).then(blob => {
+      const url = URL.createObjectURL(blob);
+      if (newTab) newTab.location.href = url;
+    }).catch(() => {
+      if (newTab) newTab.close();
+    });
+  };
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 12,
@@ -193,7 +207,7 @@ const AdminBooks = () => {
       <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 relative">
         {book.thumbnail ? (
           <img
-            src={`/api/books/${book.id}/thumbnail`}
+            src={book.thumbnail}
             alt={book.title}
             className="w-full h-full object-cover"
           />
@@ -215,7 +229,7 @@ const AdminBooks = () => {
           <div className="flex gap-1">
             <button
               onClick={() =>
-                window.open(`/api/books/${book.id}/file`, "_blank")
+                openPDF(book.id)
               }
               className="p-2 bg-white/90 backdrop-blur-sm rounded hover:bg-white"
               title="Voir"
@@ -294,7 +308,7 @@ const AdminBooks = () => {
         {/* Actions */}
         <div className="flex gap-2">
           <button
-            onClick={() => window.open(`/api/books/${book.id}/file`, "_blank")}
+            onClick={() => openPDF(book.id)}
             className="flex-1 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 flex items-center justify-center gap-1"
           >
             <Eye className="w-4 h-4" />

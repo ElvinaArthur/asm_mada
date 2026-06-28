@@ -6,6 +6,17 @@ import {
   adminUserService,
 } from "../../services/adminService";
 
+const openPDF = (bookId) => {
+  const newTab = window.open('', '_blank');
+  const token = localStorage.getItem('token');
+  fetch(`/api/books/${bookId}/file`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  }).then(res => res.blob()).then(blob => {
+    const url = URL.createObjectURL(blob);
+    if (newTab) newTab.location.href = url;
+  }).catch(() => { if (newTab) newTab.close(); });
+};
+
 const AdminBooks = () => {
   const [books, setBooks] = useState([]);
   const [pendingUsers, setPendingUsers] = useState([]);
@@ -323,14 +334,12 @@ const AdminBooks = () => {
                   </td>
                   <td className="p-2">{book.views || 0}</td>
                   <td className="p-2">
-                    <a
-                      href={`/api/books/${book.id}/file`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => openPDF(book.id)}
                       className="text-blue-600 hover:underline mr-3"
                     >
                       Voir
-                    </a>
+                    </button>
                     <button className="text-red-600 hover:underline">
                       Supprimer
                     </button>

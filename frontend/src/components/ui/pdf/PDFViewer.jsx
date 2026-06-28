@@ -1,21 +1,16 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import {
-  Lock,
-  AlertCircle,
-  BookOpen,
-  X,
-  Loader2,
-} from "lucide-react";
+import { Lock, BookOpen, X, Loader2, AlertCircle } from "lucide-react";
 
 const PDFViewer = ({ pdfUrl, bookTitle, bookAuthor, onClose }) => {
-  const [status, setStatus] = useState("loading"); // loading | open | error
+  const [blobUrl, setBlobUrl] = useState(null);
+  const [status, setStatus] = useState("loading"); // loading | ready | error
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     let objectUrl = null;
 
-    const openPDF = async () => {
+    const loadPDF = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(pdfUrl, {
@@ -35,101 +30,80 @@ const PDFViewer = ({ pdfUrl, bookTitle, bookAuthor, onClose }) => {
 
         const blob = await res.blob();
         objectUrl = URL.createObjectURL(blob);
-
-        // Ouvrir dans un nouvel onglet — URL temporaire locale, non téléchargeable
-        const newTab = window.open(objectUrl, "_blank", "noopener,noreferrer");
-        if (!newTab) {
-          setErrorMsg("Le navigateur a bloqué le pop-up. Autorisez les pop-ups pour ce site puis réessayez.");
-          setStatus("error");
-          return;
-        }
-
-        setStatus("open");
-
-        // Révoquer le blob URL après 5 min (le PDF est déjà chargé dans l'onglet)
-        setTimeout(() => {
-          if (objectUrl) URL.revokeObjectURL(objectUrl);
-        }, 5 * 60 * 1000);
-      } catch (err) {
-        setErrorMsg("Erreur réseau. Vérifiez votre connexion et réessayez.");
+        setBlobUrl(objectUrl);
+        setStatus("ready");
+      } catch {
+        setErrorMsg("Erreur réseau. Vérifiez votre connexion.");
         setStatus("error");
       }
     };
 
-    openPDF();
+    loadPDF();
 
     return () => {
-      // Ne pas révoquer immédiatement — l'onglet est encore en train de charger
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [pdfUrl]);
 
   return (
-    <div className="fixed inset-0 bg-gray-900/95 z-50 flex flex-col items-center justify-center p-8">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
-        {/* Header */}
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-green-100 p-3 rounded-full">
-              <BookOpen className="w-8 h-8 text-green-600" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 leading-tight">{bookTitle}</h2>
-              {bookAuthor && <p className="text-gray-500 text-sm mt-1">{bookAuthor}</p>}
-            </div>
+    <div className="fixed inset-0 bg-gray-900/95 z-50 flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-b shrink-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <BookOpen className="w-5 h-5 text-green-600 shrink-0" />
+          <div className="min-w-0">
+            <p className="font-semibold text-gray-900 truncate">{bookTitle}</p>
+            {bookAuthor && <p className="text-xs text-gray-500 truncate">{bookAuthor}</p>}
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition">
-            <X className="w-5 h-5 text-gray-500" />
+        </div>
+        <div className="flex items-center gap-3 shrink-0 ml-4">
+          <span className="hidden sm:flex items-center gap-1 text-xs text-gray-400 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            <Lock className="w-3 h-3" /> Lecture seule · © ASM 2026
+          </span>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition"
+            title="Fermer"
+          >
+            <X className="w-5 h-5 text-gray-600" />
           </button>
         </div>
+      </div>
 
-        {/* État : chargement */}
+      {/* Corps */}
+      <div className="flex-1 min-h-0 relative">
         {status === "loading" && (
-          <div className="flex flex-col items-center py-8 gap-4">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gray-50">
             <Loader2 className="w-10 h-10 text-green-600 animate-spin" />
-            <p className="text-gray-600 text-center">Chargement du document sécurisé…</p>
+            <p className="text-gray-600">Chargement du document sécurisé…</p>
           </div>
         )}
 
-        {/* État : ouvert */}
-        {status === "open" && (
-          <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5 mb-5">
-            <p className="text-green-800 font-semibold mb-1">Document ouvert dans un nouvel onglet ✓</p>
-            <p className="text-green-700 text-sm">
-              Le document s'affiche dans votre navigateur. Si l'onglet ne s'est pas ouvert,
-              autorisez les pop-ups pour ce site.
-            </p>
-          </div>
-        )}
-
-        {/* État : erreur */}
         {status === "error" && (
-          <div className="bg-red-50 border-2 border-red-200 rounded-xl p-5 mb-5 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-red-900 mb-1">Impossible d'ouvrir le document</p>
-              <p className="text-red-800 text-sm">{errorMsg}</p>
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-50 p-8">
+            <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center">
+              <div className="bg-red-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <AlertCircle className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Impossible d'ouvrir le document</h3>
+              <p className="text-gray-600 text-sm mb-6">{errorMsg}</p>
+              <button
+                onClick={onClose}
+                className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl hover:bg-gray-200 transition font-semibold"
+              >
+                Retour à la bibliothèque
+              </button>
             </div>
           </div>
         )}
 
-        {/* Protection DRM */}
-        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-5">
-          <div className="flex items-start gap-3">
-            <Lock className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" />
-            <ul className="text-xs text-gray-600 space-y-1">
-              <li>• Lecture en ligne uniquement — téléchargement désactivé</li>
-              <li>• Reproduction et distribution interdites</li>
-              <li>• © Association des Sociologues Malgaches (ASM) 2026</li>
-            </ul>
-          </div>
-        </div>
-
-        <button
-          onClick={onClose}
-          className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-200 transition font-semibold"
-        >
-          Retour à la bibliothèque
-        </button>
+        {status === "ready" && blobUrl && (
+          <iframe
+            src={`${blobUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
+            className="w-full h-full border-0"
+            title={bookTitle}
+          />
+        )}
       </div>
     </div>
   );
