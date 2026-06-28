@@ -125,6 +125,22 @@ const ProfilePage = () => {
       if (data.success && (data.profile || data.data)) {
         const p = data.profile || data.data;
 
+        // Helper : parse sécurisé d'un champ JSONB qui peut arriver en string ou en objet
+        const parseJsonArray = (val) => {
+          if (Array.isArray(val)) return val;
+          if (typeof val === "string") {
+            try { const r = JSON.parse(val); return Array.isArray(r) ? r : []; } catch { return []; }
+          }
+          return [];
+        };
+        const parseJsonObj = (val, fallback = {}) => {
+          if (val && typeof val === "object" && !Array.isArray(val)) return val;
+          if (typeof val === "string") {
+            try { return JSON.parse(val) || fallback; } catch { return fallback; }
+          }
+          return fallback;
+        };
+
         // Décomposer location JSON si nécessaire
         let locationParsed = {};
         if (p.location) {
@@ -134,34 +150,31 @@ const ProfilePage = () => {
                 ? JSON.parse(p.location)
                 : p.location;
           } catch {
-            // ancien format texte brut → mettre dans city
             locationParsed = { city: p.location };
           }
         }
 
-        // Normaliser academicEducations (ancien champ unique → tableau)
-        let educations = [];
-        if (Array.isArray(p.academicEducations)) {
-          educations = p.academicEducations;
-        } else if (
-          p.academicBackground &&
-          typeof p.academicBackground === "object"
-        ) {
-          // migration depuis ancien format objet unique
-          const ab = p.academicBackground;
+        // Normaliser academicEducations
+        let educations = parseJsonArray(p.academicEducations);
+        if (educations.length === 0) {
+          const ab = parseJsonObj(p.academicBackground);
           if (ab.degree || ab.field || ab.institution) {
-            educations = [
-              {
-                degree: ab.degree || "",
-                field: ab.field || "",
-                institution: ab.institution || "",
-                startYear: "",
-                endYear: ab.graduationYear || "",
-                description: "",
-              },
-            ];
+            educations = [{
+              degree: ab.degree || "",
+              field: ab.field || "",
+              institution: ab.institution || "",
+              startYear: "",
+              endYear: ab.graduationYear || "",
+              description: "",
+            }];
           }
         }
+
+        // previousPositions
+        const previousPositions = parseJsonArray(p.previousPositions);
+
+        // privacy
+        const privacy = parseJsonObj(p.privacy);
 
         setFormData({
           firstName: p.firstName || "",
@@ -179,7 +192,7 @@ const ProfilePage = () => {
           neighborhood: locationParsed.neighborhood || "",
           bio: p.bio || "",
           academicEducations: educations,
-          previousPositions: p.previousPositions || [],
+          previousPositions: previousPositions,
           privacy: {
             showPhone: false,
             showPhone2: false,
@@ -190,7 +203,7 @@ const ProfilePage = () => {
             showAcademic: false,
             showPreviousPositions: false,
             showBio: false,
-            ...(p.privacy || {}),
+            ...privacy,
           },
         });
         setExpandedAcademic(educations.map((_, i) => i));

@@ -28,12 +28,30 @@ const MemberDetailsModal = ({ isOpen, onClose, memberId, isAdmin = false }) => {
     }
   }, [isOpen, memberId]);
 
+  const parseJsonArray = (val) => {
+    if (Array.isArray(val)) return val;
+    if (typeof val === "string") { try { const r = JSON.parse(val); return Array.isArray(r) ? r : []; } catch { return []; } }
+    return [];
+  };
+  const parseJsonObj = (val) => {
+    if (val && typeof val === "object" && !Array.isArray(val)) return val;
+    if (typeof val === "string") { try { return JSON.parse(val) || {}; } catch { return {}; } }
+    return {};
+  };
+
   const loadMemberDetails = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await directoryAPI.getMemberDetails(memberId);
-      setMember(response.profile);
+      const p = response.profile;
+      if (p) {
+        p.previousPositions = parseJsonArray(p.previousPositions);
+        p.academicEducations = parseJsonArray(p.academicEducations);
+        p.academicBackground = parseJsonObj(p.academicBackground);
+        p.privacy = parseJsonObj(p.privacy);
+      }
+      setMember(p);
     } catch (err) {
       setError("Impossible de charger les détails du membre");
       console.error(err);
