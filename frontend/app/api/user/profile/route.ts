@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
-import { put } from '@vercel/blob';
+
+// Champs texte simples
+const TEXT_FIELDS = ['firstName', 'lastName', 'title', 'institution', 'location', 'expertise', 'bio', 'currentPosition', 'company', 'phone', 'phone2', 'birthDate', 'specialization'];
+// Champs entiers
+const INT_FIELDS = ['birthYear', 'graduationYear'];
+// Champs JSONB — nécessitent un cast explicite
+const JSONB_FIELDS = ['academicEducations', 'previousPositions', 'privacy', 'academicBackground'];
+
+const ALL_FIELDS = [...TEXT_FIELDS, ...INT_FIELDS, ...JSONB_FIELDS];
 
 export async function GET(req: NextRequest) {
   const user = await getAuthUser(req);
@@ -25,10 +33,18 @@ export async function PUT(req: NextRequest) {
     if (contentType.includes('multipart/form-data')) {
       const formData = await req.formData();
       const photo = formData.get('photo') as File | null;
-      if (photo) {
-        const blob = await put(`avatars/${user.id}-${Date.now()}.${photo.name.split('.').pop()}`, photo, { access: 'public' });
-        photoUrl = blob.url;
+
+      // Upload photo uniquement si fichier valide et token Blob configuré
+      if (photo && photo.size > 0 && process.env.BLOB_READ_WRITE_TOKEN) {
+        try {
+          const { put } = await import('@vercel/blob');
+          const blob = await put(`avatars/${user.id}-${Date.now()}.${photo.name.split('.').pop()}`, photo, { access: 'public' });
+          photoUrl = blob.url;
+        } catch (blobErr) {
+          console.warn('Upload photo blob échoué (token manquant ou erreur):', blobErr);
+        }
       }
+
       formData.forEach((value, key) => {
         if (key !== 'photo') updateData[key] = value;
       });
@@ -40,27 +56,44 @@ export async function PUT(req: NextRequest) {
     const values: unknown[] = [];
     let paramCount = 1;
 
-    const allowedFields = ['firstName', 'lastName', 'title', 'institution', 'location', 'expertise', 'bio', 'currentPosition', 'company', 'phone', 'phone2', 'birthDate', 'birthYear', 'graduationYear', 'specialization', 'academicEducations', 'previousPositions', 'privacy', 'academicBackground'];
-    allowedFields.forEach(field => {
-      if (updateData[field] !== undefined) {
+    for (const field of ALL_FIELDS) {
+      if (updateData[field] === undefined) continue;
+
+      let value = updateData[field];
+
+      if (JSONB_FIELDS.includes(field)) {
+        // Parser la chaîne JSON → objet pour que pg l'envoie correctement en JSONB
+        if (typeof value === 'string') {
+          try { value = JSON.parse(value); } catch { value = field.endsWith('s') ? [] : {}; }
+        }
+        fields.push(`"${field}" = $${paramCount++}::jsonb`);
+      } else if (INT_FIELDS.includes(field)) {
+        value = value ? parseInt(value as string, 10) : null;
         fields.push(`"${field}" = $${paramCount++}`);
-        values.push(updateData[field]);
+      } else {
+        fields.push(`"${field}" = $${paramCount++}`);
       }
-    });
+
+      values.push(value);
+    }
 
     if (photoUrl) {
       fields.push(`"photoUrl" = $${paramCount++}`);
       values.push(photoUrl);
     }
-    if (fields.length === 0) return NextResponse.json({ success: false, message: 'Rien à mettre à jour' }, { status: 400 });
+
+    if (fields.length === 0) {
+      return NextResponse.json({ success: false, message: 'Rien à mettre à jour' }, { status: 400 });
+    }
 
     fields.push(`"updatedAt" = NOW()`);
     values.push(user.id);
 
     const result = await sql.query(
-      `UPDATE users SET ${fields.join(', ')} WHERE id = $${paramCount} RETURNING id, "firstName", "lastName", email, role, "isVerified", "photoUrl"`,
+      `UPDATE users SET ${fields.join(', ')} WHERE id = $${paramCount} RETURNING id, "firstName", "lastName", email, role, "isVerified", "photoUrl", "currentPosition", company, phone, bio`,
       values
     );
+
     return NextResponse.json({ success: true, data: result.rows[0] });
   } catch (error) {
     console.error('Update profile error:', error);
