@@ -27,6 +27,9 @@ const API_BASE = process.env.NEXT_PUBLIC_APP_URL || "";
 const UserAvatar = ({ user, size = "md" }) => {
   const [imgError, setImgError] = useState(false);
 
+  // Reset l'erreur d'image quand photoUrl change (ex: après upload de photo de profil)
+  useEffect(() => { setImgError(false); }, [user?.photoUrl]);
+
   const sizeClasses = {
     sm: "w-8 h-8 text-xs",
     md: "w-10 h-10 text-sm",

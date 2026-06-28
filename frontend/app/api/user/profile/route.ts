@@ -34,14 +34,28 @@ export async function PUT(req: NextRequest) {
       const formData = await req.formData();
       const photo = formData.get('photo') as File | null;
 
-      // Upload photo uniquement si fichier valide et token Blob configuré
-      if (photo && photo.size > 0 && process.env.BLOB_READ_WRITE_TOKEN) {
+      // Upload photo si fichier valide
+      if (photo && photo.size > 0) {
+        const ext = (photo.name.split('.').pop() || 'jpg').toLowerCase();
+        // Redimensionner côté client n'est pas possible ici — limiter à 2MB
+        if (photo.size > 2 * 1024 * 1024) {
+          return NextResponse.json({ success: false, message: 'Photo trop grande (max 2 Mo). Compressez-la avant upload.' }, { status: 400 });
+        }
         try {
-          const { put } = await import('@vercel/blob');
-          const blob = await put(`avatars/${user.id}-${Date.now()}.${photo.name.split('.').pop()}`, photo, { access: 'public' });
-          photoUrl = blob.url;
-        } catch (blobErr) {
-          console.warn('Upload photo blob échoué (token manquant ou erreur):', blobErr);
+          if (process.env.BLOB_READ_WRITE_TOKEN) {
+            // Production Vercel avec Blob configuré
+            const { put } = await import('@vercel/blob');
+            const blob = await put(`avatars/${user.id}-${Date.now()}.${ext}`, photo, { access: 'public' });
+            photoUrl = blob.url;
+          } else {
+            // Fallback universel : stocker en base64 data URL dans la colonne photoUrl
+            // Fonctionne sur Vercel (filesystem read-only) et en local
+            const buffer = Buffer.from(await photo.arrayBuffer());
+            const mime = photo.type || `image/${ext}`;
+            photoUrl = `data:${mime};base64,${buffer.toString('base64')}`;
+          }
+        } catch (uploadErr) {
+          console.error('Upload photo échoué:', uploadErr);
         }
       }
 
