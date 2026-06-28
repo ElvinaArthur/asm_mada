@@ -4,8 +4,8 @@ import { BookOpen, Download, Eye, Calendar, Clock } from "lucide-react";
 
 const BookCard = ({ book }) => {
   // Construire les URLs complètes
-  const thumbnailUrl = `\${API_BASE}\${book.thumbnailUrl}`;
-  const pdfUrl = `\${API_BASE}\${book.pdfUrl}`;
+  const thumbnailUrl = book.thumbnail || null;
+  const pdfUrl = book.fileName || null;
 
   // Couleurs par catégorie
   const getCategoryColor = (category) => {
