@@ -324,7 +324,7 @@ const AdminBooks = () => {
                   <td className="p-2">{book.views || 0}</td>
                   <td className="p-2">
                     <a
-                      href={`/api/books/${book.id}/view`}
+                      href={`/api/books/${book.id}/file`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline mr-3"

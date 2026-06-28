@@ -215,7 +215,7 @@ const AdminBooks = () => {
           <div className="flex gap-1">
             <button
               onClick={() =>
-                window.open(`/api/books/${book.id}/view`, "_blank")
+                window.open(`/api/books/${book.id}/file`, "_blank")
               }
               className="p-2 bg-white/90 backdrop-blur-sm rounded hover:bg-white"
               title="Voir"
@@ -294,7 +294,7 @@ const AdminBooks = () => {
         {/* Actions */}
         <div className="flex gap-2">
           <button
-            onClick={() => window.open(`/api/books/${book.id}/view`, "_blank")}
+            onClick={() => window.open(`/api/books/${book.id}/file`, "_blank")}
             className="flex-1 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 flex items-center justify-center gap-1"
           >
             <Eye className="w-4 h-4" />

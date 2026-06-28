@@ -46,7 +46,7 @@ const BookGrid = ({ books = [], viewMode = "grid" }) => {
             <div className="aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden relative">
               {!imageErrors[book.id] ? (
                 <img
-                  src={`${API_URL}/books/${book.id}/thumbnail`}
+                  src={book.thumbnail || ''}
                   alt={book.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   onError={() => handleImageError(book.id)}
@@ -115,7 +115,7 @@ const BookGrid = ({ books = [], viewMode = "grid" }) => {
           <div className="w-20 h-28 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden flex-shrink-0">
             {!imageErrors[book.id] ? (
               <img
-                src={`${API_URL}/books/${book.id}/thumbnail`}
+                src={book.thumbnail || ''}
                 alt={book.title}
                 className="w-full h-full object-cover"
                 onError={() => handleImageError(book.id)}
