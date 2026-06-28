@@ -58,7 +58,7 @@ const SectionHeader = ({ icon: Icon, title, rightSlot }) => (
 
 // ─── Main Component ────────────────────────────────────────────────
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
 
   const emptyAcademic = {
     degree: "",
@@ -360,6 +360,7 @@ const ProfilePage = () => {
           text: "Profil mis à jour avec succès !",
         });
         loadProfile();
+        if (refreshUser) refreshUser(); // Rafraîchit la photo dans la navbar
       } else {
         setMessage({
           type: "error",
