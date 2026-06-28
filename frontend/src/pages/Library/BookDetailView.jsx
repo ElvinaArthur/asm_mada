@@ -27,8 +27,8 @@ const BookDetailView = ({ book, onClose }) => {
   const [localViews, setLocalViews] = useState(book.views || 0);
   const hasIncremented = useRef(false); // évite le double appel en StrictMode
 
-  const thumbnailUrl = `${API_URL}/books/${book.id}/thumbnail`;
-  const pdfUrl = `${API_URL}/books/${book.id}/view`;
+  const thumbnailUrl = book.thumbnail || null;
+  const pdfUrl = `${API_URL}/books/${book.id}/file`;
 
   // ─── Incrémenter les vues au montage (une seule fois) ────────────────────
   useEffect(() => {

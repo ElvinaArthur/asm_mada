@@ -122,8 +122,8 @@ const ProfilePage = () => {
       });
       if (!res.ok) return;
       const data = await res.json();
-      if (data.success && data.profile) {
-        const p = data.profile;
+      if (data.success && (data.profile || data.data)) {
+        const p = data.profile || data.data;
 
         // Décomposer location JSON si nécessaire
         let locationParsed = {};

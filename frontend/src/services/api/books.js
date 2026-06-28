@@ -135,7 +135,7 @@ export const bookAPI = {
   // Rechercher des livres
   searchBooks: async (query, params = {}) => {
     try {
-      const response = await api.get(`/books/search/${query}`, { params });
+      const response = await api.get(`/books`, { params: { search: query, ...params } });
       return response.data;
     } catch (error) {
       console.error("❌ Erreur API searchBooks:", error.message);

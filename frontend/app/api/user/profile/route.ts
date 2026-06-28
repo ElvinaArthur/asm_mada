@@ -40,7 +40,7 @@ export async function PUT(req: NextRequest) {
     const values: unknown[] = [];
     let paramCount = 1;
 
-    const allowedFields = ['firstName', 'lastName', 'title', 'institution', 'location', 'expertise', 'bio', 'currentPosition', 'company', 'phone', 'phone2', 'birthDate', 'birthYear', 'graduationYear', 'specialization'];
+    const allowedFields = ['firstName', 'lastName', 'title', 'institution', 'location', 'expertise', 'bio', 'currentPosition', 'company', 'phone', 'phone2', 'birthDate', 'birthYear', 'graduationYear', 'specialization', 'academicEducations', 'previousPositions', 'privacy', 'academicBackground'];
     allowedFields.forEach(field => {
       if (updateData[field] !== undefined) {
         fields.push(`"${field}" = $${paramCount++}`);

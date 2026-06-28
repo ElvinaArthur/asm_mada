@@ -142,7 +142,7 @@ const Dashboard = () => {
                   color="from-yellow-500 to-yellow-600"
                 />
                 <QuickActionCard
-                  href="/documents"
+                  href="/profile"
                   icon={FileText}
                   label="Documents"
                   color="from-purple-500 to-purple-600"
